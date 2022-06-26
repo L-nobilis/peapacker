@@ -1,2 +1,2 @@
 # peapacker
-Image channel packer
+Image channel packer, work in progress.
