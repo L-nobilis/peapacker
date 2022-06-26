@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\PeaPacker\\peaPacker\\peaPacker.csproj": {}
+    "C:\\peapacker\\peaPacker\\peaPacker.csproj": {}
   },
   "projects": {
-    "C:\\PeaPacker\\peaPacker\\peaPacker.csproj": {
+    "C:\\peapacker\\peaPacker\\peaPacker.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\PeaPacker\\peaPacker\\peaPacker.csproj",
+        "projectUniqueName": "C:\\peapacker\\peaPacker\\peaPacker.csproj",
         "projectName": "peaPacker",
-        "projectPath": "C:\\PeaPacker\\peaPacker\\peaPacker.csproj",
+        "projectPath": "C:\\peapacker\\peaPacker\\peaPacker.csproj",
         "packagesPath": "C:\\Users\\retro\\.nuget\\packages\\",
-        "outputPath": "C:\\PeaPacker\\peaPacker\\obj\\",
+        "outputPath": "C:\\peapacker\\peaPacker\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\retro\\AppData\\Roaming\\NuGet\\NuGet.Config",
