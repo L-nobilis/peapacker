@@ -41,8 +41,9 @@
             this.pictureBoxB = new System.Windows.Forms.PictureBox();
             this.splitContainerA = new System.Windows.Forms.SplitContainer();
             this.pictureBoxA = new System.Windows.Forms.PictureBox();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.pictureBoxOutput = new System.Windows.Forms.PictureBox();
+            this.saveAsButton = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerR1)).BeginInit();
             this.splitContainerR1.Panel1.SuspendLayout();
@@ -81,6 +82,7 @@
             this.tableLayoutPanel1.Controls.Add(this.splitContainerB, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.splitContainerA, 3, 1);
             this.tableLayoutPanel1.Controls.Add(this.pictureBoxOutput, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.saveAsButton, 2, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -248,11 +250,6 @@
             this.pictureBoxA.TabStop = false;
             this.pictureBoxA.Click += new System.EventHandler(this.pictureBoxA_Click);
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
-            // 
             // pictureBoxOutput
             // 
             this.pictureBoxOutput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -264,6 +261,21 @@
             this.pictureBoxOutput.TabIndex = 5;
             this.pictureBoxOutput.TabStop = false;
             this.pictureBoxOutput.Click += new System.EventHandler(this.pictureBoxOutput_Click);
+            // 
+            // saveAsButton
+            // 
+            this.saveAsButton.Location = new System.Drawing.Point(457, 254);
+            this.saveAsButton.Name = "saveAsButton";
+            this.saveAsButton.Size = new System.Drawing.Size(75, 23);
+            this.saveAsButton.TabIndex = 6;
+            this.saveAsButton.Text = "Save as...";
+            this.saveAsButton.UseVisualStyleBackColor = true;
+            this.saveAsButton.Click += new System.EventHandler(this.saveAsButton_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
             // Form1
             // 
@@ -317,5 +329,6 @@
         private SplitContainer splitContainerA;
         private PictureBox pictureBoxA;
         private PictureBox pictureBoxOutput;
+        private Button saveAsButton;
     }
 }
