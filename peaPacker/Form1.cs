@@ -155,7 +155,36 @@ namespace peaPacker
 
         private void pictureBoxOutput_Click(object sender, EventArgs e)
         {
-            //save as function
+            saveAsButton_Click(sender, e);
+        }
+
+        private void saveAsButton_Click(object sender, EventArgs e)
+        {
+            //Displays a Save File Dialog so the user can save the outputImage. 
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "JPEG Files (*.jpg)|*.jpg|PNG Files (*.png)|*.png|BMP Files (*.bmp)|*.bmp";
+            saveFileDialog.FilterIndex = 2; //One-indexed! Sets the default image type to PNG.  
+            saveFileDialog.RestoreDirectory = true;
+            saveFileDialog.Title = "Save output";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK && saveFileDialog.FileName != "") //Filename cannot be an empty string
+            {
+                System.IO.FileStream fs = (System.IO.FileStream)saveFileDialog.OpenFile();
+
+                switch (saveFileDialog.FilterIndex)
+                {
+                    case 1:
+                        pictureBoxOutput.Image.Save(fs, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        break;
+                    case 2:
+                        pictureBoxOutput.Image.Save(fs, System.Drawing.Imaging.ImageFormat.Png);
+                        break;
+                    case 3:
+                        pictureBoxOutput.Image.Save(fs, System.Drawing.Imaging.ImageFormat.Bmp);
+                        break;
+                }
+                fs.Close();
+            }
         }
     }
 }
