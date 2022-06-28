@@ -2,6 +2,9 @@ namespace peaPacker
 {
     public partial class Form1 : Form
     {
+        public int currentWidth;
+        public int currentHeight;
+
         public Form1()
         {
             InitializeComponent();
@@ -19,6 +22,9 @@ namespace peaPacker
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 Image newImage = Image.FromFile(openFileDialog1.FileName);
+                currentWidth = newImage.Width;
+                currentHeight = newImage.Height;
+
                 Bitmap[] channels = SplitChannels((Bitmap)newImage);
 
                 pictureBoxR.Image = channels[0];
@@ -27,47 +33,60 @@ namespace peaPacker
                 pictureBoxA.Image = channels[3];
 
                 RecombineChannels();
+
+                outputSizeLabel.Text = $"Output size: {currentWidth} x {currentHeight}";
             }
 
         }
 
         private void pictureBoxR_Click(object sender, EventArgs e)
         {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                Image newImage = Image.FromFile(openFileDialog1.FileName);
-                pictureBoxR.Image = SplitOneChannel((Bitmap)newImage, "r");
-                RecombineChannels();
-            }
+            LoadIndividualChannel("r");
         }
 
         private void pictureBoxG_Click(object sender, EventArgs e)
         {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                Image newImage = Image.FromFile(openFileDialog1.FileName);
-                pictureBoxG.Image = SplitOneChannel((Bitmap)newImage, "g");
-                RecombineChannels();
-            }
+            LoadIndividualChannel("g");
         }
 
         private void pictureBoxB_Click(object sender, EventArgs e)
         {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                Image newImage = Image.FromFile(openFileDialog1.FileName);
-                pictureBoxB.Image = SplitOneChannel((Bitmap)newImage, "b");
-                RecombineChannels();
-            }
+            LoadIndividualChannel("b");
         }
 
         private void pictureBoxA_Click(object sender, EventArgs e)
         {
+            LoadIndividualChannel("a");
+        }
+
+        public void LoadIndividualChannel(string channel)
+        {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 Image newImage = Image.FromFile(openFileDialog1.FileName);
-                pictureBoxA.Image = SplitOneChannel((Bitmap)newImage, "a");
-                RecombineChannels();
+                if (newImage.Width != currentWidth || newImage.Height != currentHeight)
+                {
+                    MessageBox.Show($"Channel size must match original image size: {currentWidth} x {currentHeight}");
+                }
+                else
+                {
+                    switch (channel)
+                    {
+                        case "r":
+                            pictureBoxR.Image = SplitOneChannel((Bitmap)newImage, channel);
+                            break;
+                        case "g":
+                            pictureBoxG.Image = SplitOneChannel((Bitmap)newImage, channel);
+                            break;
+                        case "b":
+                            pictureBoxB.Image = SplitOneChannel((Bitmap)newImage, channel);
+                            break;
+                        case "a":
+                            pictureBoxA.Image = SplitOneChannel((Bitmap)newImage, channel);
+                            break;
+                    }
+                    RecombineChannels();
+                }
             }
         }
 
