@@ -28,27 +28,27 @@ namespace peaPacker
                 currentWidth = newImage.Width;
                 currentHeight = newImage.Height;
 
-                Image[] channels = SplitChannels(newImage);
+                //Image[] channels = SplitChannels(newImage);
 
-                //PictureBox[] channelBoxes = new PictureBox[4];
-                //channelBoxes[0] = pictureBoxR;
-                //channelBoxes[1] = pictureBoxG;
-                //channelBoxes[2] = pictureBoxB;
-                //channelBoxes[3] = pictureBoxA;
+                PictureBox[] channelBoxes = new PictureBox[4];
+                channelBoxes[0] = pictureBoxR;
+                channelBoxes[1] = pictureBoxG;
+                channelBoxes[2] = pictureBoxB;
+                channelBoxes[3] = pictureBoxA;
 
-                //int i = 0;
-                //foreach(PictureBox box in channelBoxes)
-                //{
-                //    Debug.WriteLine($"Replacing {box}'s image....");
-                //    var stream = new System.IO.MemoryStream();
-                //    channels[i].SaveAsBmp(stream);
-                //    box.Image = System.Drawing.Image.FromStream(stream);
-                //    i++;
-                //}
+                int i = 0;
+                foreach (PictureBox box in channelBoxes)
+                {
+                    var stream = new System.IO.MemoryStream();
+                    Debug.WriteLine($"Calling SplitOneChannel on {newImage}, channel {i}");
+                    SplitOneChannel(newImage, i).SaveAsBmp(stream);
+                    box.Image = System.Drawing.Image.FromStream(stream);
+                    i++;
+                }
 
-                var stream2 = new System.IO.MemoryStream();
-                channels[0].SaveAsBmp(stream2);
-                pictureBoxR.Image = System.Drawing.Image.FromStream(stream2);
+                //var stream2 = new System.IO.MemoryStream();
+                //SplitOneChannel(newImage, "r").SaveAsBmp(stream2);
+                //pictureBoxR.Image = System.Drawing.Image.FromStream(stream2);
 
                 //RecombineChannels();
 
@@ -118,30 +118,33 @@ namespace peaPacker
             Image blueChannel = sourceImage;
             Image alphaChannel = sourceImage;
 
-            redChannel.Mutate(c => c.ProcessPixelRowsAsVector4(row => {
+            redChannel.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
                 for (int x = 0; x < row.Length; x++)
                 {
                     row[x] = new System.Numerics.Vector4(row[x].X, row[x].X, row[x].X, 1);
                 }
             }));
-            //greenChannel.Mutate(c => c.ProcessPixelRowsAsVector4(row => {
-            //    for (int x = 0; x < row.Length; x++)
-            //    {
-            //        row[x] = new System.Numerics.Vector4(row[x].Y, row[x].Y, row[x].Y, 1);
-            //    }
-            //}));
-            //blueChannel.Mutate(c => c.ProcessPixelRowsAsVector4(row => {
-            //    for (int x = 0; x < row.Length; x++)
-            //    {
-            //        row[x] = new System.Numerics.Vector4(row[x].Z, row[x].Z, row[x].Z, 1);
-            //    }
-            //}));
-            //alphaChannel.Mutate(c => c.ProcessPixelRowsAsVector4(row => {
-            //    for (int x = 0; x < row.Length; x++)
-            //    {
-            //        row[x] = new System.Numerics.Vector4(row[x].W, row[x].W, row[x].W, 1);
-            //    }
-            //}));
+            greenChannel.Mutate(g => g.ProcessPixelRowsAsVector4(row =>
+            {
+                for (int x = 0; x < row.Length; x++)
+                {
+                    row[x] = new System.Numerics.Vector4(row[x].Y, row[x].Y, row[x].Y, 1);
+                }
+            }));
+            blueChannel.Mutate(b => b.ProcessPixelRowsAsVector4(row =>
+            {
+                for (int x = 0; x < row.Length; x++)
+                {
+                    row[x] = new System.Numerics.Vector4(row[x].Z, row[x].Z, row[x].Z, 1);
+                }
+            }));
+            alphaChannel.Mutate(a => a.ProcessPixelRowsAsVector4(row =>
+            {
+                for (int x = 0; x < row.Length; x++)
+                {
+                    row[x] = new System.Numerics.Vector4(row[x].W, row[x].W, row[x].W, 1);
+                }
+            }));
             channelArray[0] = redChannel;
             channelArray[1] = greenChannel;
             channelArray[2] = blueChannel;
@@ -150,32 +153,46 @@ namespace peaPacker
             return channelArray;
         }
 
-        public Bitmap SplitOneChannel(Bitmap image, string channel)
+        public Image SplitOneChannel(Image sourceImage, int channel)
         {
-            Bitmap isolatedChannel = new Bitmap(image.Width, image.Height);
+            Image isolatedChannel = sourceImage;
 
-            //for (int i=0; i<isolatedChannel.Width; i++)
-            //{
-            //    for (int j=0; j<isolatedChannel.Height; j++)
-            //    {
-            //        Color pixelColor = image.GetPixel(i, j);
-            //        switch (channel)
-            //        {
-            //            case "r":
-            //                isolatedChannel.SetPixel(i, j, Color.FromArgb(pixelColor.R, pixelColor.R, pixelColor.R));
-            //                break;
-            //            case "g":
-            //                isolatedChannel.SetPixel(i, j, Color.FromArgb(pixelColor.G, pixelColor.G, pixelColor.G));
-            //                break;
-            //            case "b":
-            //                isolatedChannel.SetPixel(i, j, Color.FromArgb(pixelColor.B, pixelColor.B, pixelColor.B));
-            //                break;
-            //            case "a":
-            //                isolatedChannel.SetPixel(i, j, Color.FromArgb(pixelColor.A, pixelColor.A, pixelColor.A));
-            //                break;
-            //        }
-            //    }
-            //}
+            switch (channel)
+            {
+                case 0:
+                    sourceImage.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
+                        for (int x = 0; x < row.Length; x++)
+                        {
+                            row[x] = new System.Numerics.Vector4(row[x].X, row[x].X, row[x].X, 1);
+                        }
+                    }));
+                    break;
+                case 1:
+                    sourceImage.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
+                        for (int x = 0; x < row.Length; x++)
+                        {
+                            row[x] = new System.Numerics.Vector4(row[x].Y, row[x].Y, row[x].Y, 1);
+                        }
+                    }));
+                    break;
+                case 2:
+                    sourceImage.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
+                        for (int x = 0; x < row.Length; x++)
+                        {
+                            row[x] = new System.Numerics.Vector4(row[x].Z, row[x].Z, row[x].Z, 1);
+                        }
+                    }));
+                    break;
+                case 3:
+                    sourceImage.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
+                        for (int x = 0; x < row.Length; x++)
+                        {
+                            row[x] = new System.Numerics.Vector4(row[x].W, row[x].W, row[x].W, 1);
+                        }
+                    }));
+                    break;
+            }
+
             return isolatedChannel;
         }
 
