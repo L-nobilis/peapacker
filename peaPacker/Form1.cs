@@ -20,6 +20,7 @@ namespace peaPacker
 
         }
 
+        // https://swharden.com/csdv/platforms/imagesharp/
         private void openImage_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -40,9 +41,13 @@ namespace peaPacker
                 foreach (PictureBox box in channelBoxes)
                 {
                     var stream = new System.IO.MemoryStream();
-                    Debug.WriteLine($"Calling SplitOneChannel on {newImage}, channel {i}");
                     SplitOneChannel(newImage, i).SaveAsBmp(stream);
-                    box.Image = System.Drawing.Image.FromStream(stream);
+                    System.Drawing.Image channelImg = System.Drawing.Image.FromStream(stream);
+
+
+                    box.Image?.Dispose();
+                    box.Image = channelImg;
+
                     i++;
                 }
 
@@ -155,12 +160,13 @@ namespace peaPacker
 
         public Image SplitOneChannel(Image sourceImage, int channel)
         {
-            Image isolatedChannel = sourceImage;
+            Image isolatedChannel = new Image<SixLabors.ImageSharp.PixelFormats.Rgba32>(sourceImage.Width, sourceImage.Height);
+           // isolatedChannel = sourceImage;
 
             switch (channel)
             {
                 case 0:
-                    sourceImage.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
+                    isolatedChannel = sourceImage.Clone(r => r.ProcessPixelRowsAsVector4(row => {
                         for (int x = 0; x < row.Length; x++)
                         {
                             row[x] = new System.Numerics.Vector4(row[x].X, row[x].X, row[x].X, 1);
@@ -168,7 +174,7 @@ namespace peaPacker
                     }));
                     break;
                 case 1:
-                    sourceImage.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
+                    isolatedChannel = sourceImage.Clone(g => g.ProcessPixelRowsAsVector4(row => {
                         for (int x = 0; x < row.Length; x++)
                         {
                             row[x] = new System.Numerics.Vector4(row[x].Y, row[x].Y, row[x].Y, 1);
@@ -176,7 +182,7 @@ namespace peaPacker
                     }));
                     break;
                 case 2:
-                    sourceImage.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
+                    isolatedChannel = sourceImage.Clone(b => b.ProcessPixelRowsAsVector4(row => {
                         for (int x = 0; x < row.Length; x++)
                         {
                             row[x] = new System.Numerics.Vector4(row[x].Z, row[x].Z, row[x].Z, 1);
@@ -184,7 +190,7 @@ namespace peaPacker
                     }));
                     break;
                 case 3:
-                    sourceImage.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
+                    isolatedChannel = sourceImage.Clone(a => a.ProcessPixelRowsAsVector4(row => {
                         for (int x = 0; x < row.Length; x++)
                         {
                             row[x] = new System.Numerics.Vector4(row[x].W, row[x].W, row[x].W, 1);
