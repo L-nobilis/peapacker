@@ -1,5 +1,12 @@
 namespace peaPacker
 {
+    using SixLabors.ImageSharp;
+    using SixLabors.ImageSharp.Processing;
+    using SixLabors.ImageSharp.Advanced;
+    using SixLabors.ImageSharp.Formats.Png;
+    using SixLabors.ImageSharp.PixelFormats;
+    using System.Diagnostics;
+
     public partial class Form1 : Form
     {
         public int currentWidth;
@@ -11,7 +18,6 @@ namespace peaPacker
         }
 
 
-
         private void openFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
         {
 
@@ -21,16 +27,28 @@ namespace peaPacker
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                Image newImage = Image.FromFile(openFileDialog1.FileName);
+                Image newImage = Image.Load(openFileDialog1.FileName);
                 currentWidth = newImage.Width;
                 currentHeight = newImage.Height;
 
-                Bitmap[] channels = SplitChannels((Bitmap)newImage);
+                PictureBox[] channelBoxes = new PictureBox[4];
+                channelBoxes[0] = pictureBoxR;
+                channelBoxes[1] = pictureBoxG;
+                channelBoxes[2] = pictureBoxB;
+                channelBoxes[3] = pictureBoxA;
 
-                pictureBoxR.Image = channels[0];
-                pictureBoxG.Image = channels[1];
-                pictureBoxB.Image = channels[2];
-                pictureBoxA.Image = channels[3];
+                int i = 0;
+                foreach (PictureBox box in channelBoxes)
+                {
+                    var stream = new System.IO.MemoryStream();
+                    SplitOneChannel(newImage, i).SaveAsBmp(stream);
+                    System.Drawing.Image channelImg = System.Drawing.Image.FromStream(stream);
+
+                    box.Image?.Dispose();
+                    box.Image = channelImg;
+
+                    i++;
+                }
 
                 RecombineChannels();
 
@@ -41,29 +59,29 @@ namespace peaPacker
 
         private void pictureBoxR_Click(object sender, EventArgs e)
         {
-            LoadIndividualChannel("r");
+            LoadIndividualChannel(0);
         }
 
         private void pictureBoxG_Click(object sender, EventArgs e)
         {
-            LoadIndividualChannel("g");
+            LoadIndividualChannel(1);
         }
 
         private void pictureBoxB_Click(object sender, EventArgs e)
         {
-            LoadIndividualChannel("b");
+            LoadIndividualChannel(2);
         }
 
         private void pictureBoxA_Click(object sender, EventArgs e)
         {
-            LoadIndividualChannel("a");
+            LoadIndividualChannel(3);
         }
 
-        public void LoadIndividualChannel(string channel)
+        public void LoadIndividualChannel(int channel)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                Image newImage = Image.FromFile(openFileDialog1.FileName);
+                Image newImage = Image.Load(openFileDialog1.FileName);
                 if (newImage.Width != currentWidth || newImage.Height != currentHeight)
                 {
                     MessageBox.Show($"Channel size must match original image size: {currentWidth} x {currentHeight}");
@@ -72,17 +90,17 @@ namespace peaPacker
                 {
                     switch (channel)
                     {
-                        case "r":
-                            pictureBoxR.Image = SplitOneChannel((Bitmap)newImage, channel);
+                        case 0:
+                            pictureBoxR.Image = ToBitmap(SplitOneChannel(newImage, channel));
                             break;
-                        case "g":
-                            pictureBoxG.Image = SplitOneChannel((Bitmap)newImage, channel);
+                        case 1:
+                            pictureBoxG.Image = ToBitmap(SplitOneChannel(newImage, channel));
                             break;
-                        case "b":
-                            pictureBoxB.Image = SplitOneChannel((Bitmap)newImage, channel);
+                        case 2:
+                            pictureBoxB.Image = ToBitmap(SplitOneChannel(newImage, channel));
                             break;
-                        case "a":
-                            pictureBoxA.Image = SplitOneChannel((Bitmap)newImage, channel);
+                        case 3:
+                            pictureBoxA.Image = ToBitmap(SplitOneChannel(newImage, channel));
                             break;
                     }
                     RecombineChannels();
@@ -90,81 +108,100 @@ namespace peaPacker
             }
         }
 
-        public Bitmap[] SplitChannels(Bitmap image)
+        public Image SplitOneChannel(Image sourceImage, int channel)
         {
-            Bitmap[] channelArray = new Bitmap[4];
+            Image isolatedChannel = new Image<SixLabors.ImageSharp.PixelFormats.Rgba32>(sourceImage.Width, sourceImage.Height);
 
-            Bitmap redChannel = new Bitmap(image.Width, image.Height);
-            Bitmap greenChannel = new Bitmap(image.Width, image.Height);
-            Bitmap blueChannel = new Bitmap(image.Width, image.Height);
-            Bitmap alphaChannel = new Bitmap(image.Width, image.Height);
-
-            // Loop over all the pixels in the passed-in image.
-            for (int i=0; i<image.Width; i++)
+            switch (channel)
             {
-                for (int j=0; j<image.Height; j++)
-                {
-                    Color pixelColor = image.GetPixel(i, j);
-
-                    redChannel.SetPixel(i, j, Color.FromArgb(pixelColor.R, pixelColor.R, pixelColor.R));
-                    greenChannel.SetPixel(i, j, Color.FromArgb(pixelColor.G, pixelColor.G, pixelColor.G));
-                    blueChannel.SetPixel(i, j, Color.FromArgb(pixelColor.B, pixelColor.B, pixelColor.B));
-                    alphaChannel.SetPixel(i, j, Color.FromArgb(pixelColor.A, pixelColor.A, pixelColor.A));
-                }
-            }
-
-            channelArray[0] = redChannel;
-            channelArray[1] = greenChannel;
-            channelArray[2] = blueChannel;
-            channelArray[3] = alphaChannel;
-
-            return channelArray;
-        }
-
-        public Bitmap SplitOneChannel(Bitmap image, string channel)
-        {
-            Bitmap isolatedChannel = new Bitmap(image.Width, image.Height);
-
-            for (int i=0; i<isolatedChannel.Width; i++)
-            {
-                for (int j=0; j<isolatedChannel.Height; j++)
-                {
-                    Color pixelColor = image.GetPixel(i, j);
-                    switch (channel)
-                    {
-                        case "r":
-                            isolatedChannel.SetPixel(i, j, Color.FromArgb(pixelColor.R, pixelColor.R, pixelColor.R));
-                            break;
-                        case "g":
-                            isolatedChannel.SetPixel(i, j, Color.FromArgb(pixelColor.G, pixelColor.G, pixelColor.G));
-                            break;
-                        case "b":
-                            isolatedChannel.SetPixel(i, j, Color.FromArgb(pixelColor.B, pixelColor.B, pixelColor.B));
-                            break;
-                        case "a":
-                            isolatedChannel.SetPixel(i, j, Color.FromArgb(pixelColor.A, pixelColor.A, pixelColor.A));
-                            break;
-                    }
-                }
+                case 0:
+                    isolatedChannel = sourceImage.Clone(r => r.ProcessPixelRowsAsVector4(row => {
+                        for (int x = 0; x < row.Length; x++)
+                        {
+                            row[x] = new System.Numerics.Vector4(row[x].X, row[x].X, row[x].X, 1);
+                        }
+                    }));
+                    break;
+                case 1:
+                    isolatedChannel = sourceImage.Clone(g => g.ProcessPixelRowsAsVector4(row => {
+                        for (int x = 0; x < row.Length; x++)
+                        {
+                            row[x] = new System.Numerics.Vector4(row[x].Y, row[x].Y, row[x].Y, 1);
+                        }
+                    }));
+                    break;
+                case 2:
+                    isolatedChannel = sourceImage.Clone(b => b.ProcessPixelRowsAsVector4(row => {
+                        for (int x = 0; x < row.Length; x++)
+                        {
+                            row[x] = new System.Numerics.Vector4(row[x].Z, row[x].Z, row[x].Z, 1);
+                        }
+                    }));
+                    break;
+                case 3:
+                    isolatedChannel = sourceImage.Clone(a => a.ProcessPixelRowsAsVector4(row => {
+                        for (int x = 0; x < row.Length; x++)
+                        {
+                            row[x] = new System.Numerics.Vector4(row[x].W, row[x].W, row[x].W, 1);
+                        }
+                    }));
+                    break;
             }
             return isolatedChannel;
         }
 
         public void RecombineChannels()
         {
-            Bitmap outputImage = new Bitmap(pictureBoxR.Image.Width, pictureBoxR.Image.Height);
-            Bitmap bitmapR = (Bitmap)pictureBoxR.Image;
-            Bitmap bitmapG = (Bitmap)pictureBoxG.Image;
-            Bitmap bitmapB = (Bitmap)pictureBoxB.Image;
-            Bitmap bitmapA = (Bitmap)pictureBoxA.Image;
-            for (int i=0; i<outputImage.Width; i++)
+            Image<Rgba32> recombinedImage = new Image<SixLabors.ImageSharp.PixelFormats.Rgba32>(currentWidth, currentHeight);
+
+            Image redChannel = ToImageSharpImage((Bitmap)pictureBoxR.Image);
+            Image greenChannel = ToImageSharpImage((Bitmap)pictureBoxG.Image);
+            Image blueChannel = ToImageSharpImage((Bitmap)pictureBoxB.Image);
+            Image alphaChannel = ToImageSharpImage((Bitmap)pictureBoxA.Image);
+
+            Bitmap bitmapOutput = new Bitmap(currentWidth, currentHeight);
+            Bitmap bitmapRed = (Bitmap)pictureBoxR.Image;
+            Bitmap bitmapGreen = (Bitmap)pictureBoxG.Image;
+            Bitmap bitmapBlue = (Bitmap)pictureBoxB.Image;
+            Bitmap bitmapAlpha = (Bitmap)pictureBoxA.Image;
+
+            //i is always 0 here.  How can we access the index of a row?
+            //redChannel.Clone(x => x.ProcessPixelRowsAsVector4(row => {
+            //    int i = 0;
+            //    Debug.WriteLine($"Processing row {i}");
+            //    for (int x = 0; x < row.Length; x++)
+            //    {
+            //        redValues[i + x] = row[x].X;
+            //    }
+            //    i++;
+            //}));
+
+
+            // Recombining the output the lazy way, because I haven't yet determined how to get a row's index in the above code
+            // This solution is really slow and will be improved in future builds
+            for (int i = 0; i < currentWidth; i++)
             {
-                for (int j=0; j<outputImage.Height; j++)
+                for (int j = 0; j < currentHeight; j++)
                 {
-                    outputImage.SetPixel(i, j, Color.FromArgb(bitmapA.GetPixel(i, j).R, bitmapR.GetPixel(i,j).R, bitmapG.GetPixel(i, j).R, bitmapB.GetPixel(i, j).R));
+                    bitmapOutput.SetPixel(i, j, System.Drawing.Color.FromArgb(bitmapAlpha.GetPixel(i,j).R, bitmapRed.GetPixel(i, j).R, bitmapGreen.GetPixel(i, j).R, bitmapBlue.GetPixel(i, j).R));
                 }
-            }
-            pictureBoxOutput.Image = outputImage;
+            } 
+
+            //recombinedImage = recombinedImage.Clone(r => r.ProcessPixelRowsAsVector4(row => {
+            //    int i = 0;
+            //    for (int x = 0; x < row.Length; x++)
+            //    {
+            //        row[x] = new System.Numerics.Vector4(redValues[i + x], 0, 0, 0);
+            //    }
+            //    i++;
+            //}));
+
+            //var stream = new System.IO.MemoryStream();
+            //recombinedImage.SaveAsBmp(stream);
+            //System.Drawing.Image outputImg = System.Drawing.Image.FromStream(stream);
+
+            pictureBoxOutput.Image?.Dispose();
+            pictureBoxOutput.Image = bitmapOutput;
         }
 
         private void splitContainerG_SplitterMoved(object sender, SplitterEventArgs e)
@@ -205,5 +242,29 @@ namespace peaPacker
                 fs.Close();
             }
         }
+
+        public static Image ToImageSharpImage(Bitmap bitmap)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                bitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                return Image.Load(memoryStream);
+            }
+        }
+
+        public static Bitmap ToBitmap(Image image)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                var imageEncoder = image.GetConfiguration().ImageFormatsManager.FindEncoder(PngFormat.Instance);
+                image.Save(memoryStream, imageEncoder);
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                return new Bitmap(memoryStream);
+            }
+        }
+
+
     }
+
 }
