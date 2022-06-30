@@ -1,12 +1,18 @@
 # peaPacker
 
-PeaPacker is an open-source image channel packer, still heavily a work in progress.  It's built with C# in Visual Studio.  I'm currently only targeting Windows, but hoping to add Mac and Linux support in the future. I made this to have a quick, stand-alone tool to address my [channel packing](http://wiki.polycount.com/wiki/ChannelPacking) needs without having to fire up bulkier image-editing software.  This is my first Windows Forms application.
+## peaPacker is standalone, open-source image channel packer.
 
-## Target Features
+Built with C# in Visual Studio, peaPacker serves one purpose: [image channel packing](http://wiki.polycount.com/wiki/ChannelPacking).  It requires no installation and will be available for Windows, Macintosh, and Linux platforms.  This application was designed to avoid having to fire up bulky image-editing software just to manipulate channels.
 
-- Load in an image
-- View split RGBA channels
-- Replace individual channels with user-selected images
-- Ability to invert channels or fill them with a solid color
-- Save final packed image
-- Standalone application, no installation necessary, all contained in one .exe
+PeaPacker utilizes SixLabor's [ImageSharp](https://github.com/SixLabors/ImageSharp) API for pixel processing.
+
+## Releases
+
+peaPacker is still in active alpha development and does not yet have any release builds.  The first build is estimated to be released in early July 2022.   Watch this space!
+
+## Documentation
+
+File formats supported:
+- .png
+- .jpeg
+- .bmp
