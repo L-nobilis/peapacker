@@ -228,6 +228,20 @@ namespace peaPacker
         {
             InvertChannel(0);
         }
+        private void invertButtonG_Click(object sender, EventArgs e)
+        {
+            InvertChannel(1);
+        }
+
+        private void invertButtonB_Click(object sender, EventArgs e)
+        {
+            InvertChannel(2);
+        }
+
+        private void invertButtonA_Click(object sender, EventArgs e)
+        {
+            InvertChannel(3);
+        }
 
         private void saveAsButton_Click(object sender, EventArgs e)
         {
@@ -313,6 +327,7 @@ namespace peaPacker
                 return new Bitmap(memoryStream);
             }
         }
+
 
     }
 
