@@ -224,6 +224,10 @@ namespace peaPacker
         {
             saveAsButton_Click(sender, e);
         }
+        private void invertButtonR_Click(object sender, EventArgs e)
+        {
+            InvertChannel(0);
+        }
 
         private void saveAsButton_Click(object sender, EventArgs e)
         {
@@ -255,24 +259,33 @@ namespace peaPacker
         }
 
         ///<summary>
-        ///Inverts the passed-in image.
+        ///Inverts the indicated channel, 0 = red, 1= green, 2 = blue, 3 = alpha
         ///</summary>
-        private Image Invert(System.Drawing.Image source)
+        private void InvertChannel(int channel)
         {
-            Image newImage = ToImageSharpImage((Bitmap)source);
-
-            using (newImage)
+            switch (channel)
             {
-                newImage.Mutate(x => x.Invert());
+                case 0:
+                    redChannel.Mutate(x => x.Invert());
+                    pictureBoxR.Image = ToBitmap(redChannel);
+                    break;
+                case 1:
+                    greenChannel.Mutate(x => x.Invert());
+                    pictureBoxG.Image = ToBitmap(greenChannel);
+                    break;
+                case 2:
+                    blueChannel.Mutate(x => x.Invert());
+                    pictureBoxB.Image = ToBitmap(blueChannel);
+                    break;
+                case 3:
+                    alphaChannel.Mutate(x => x.Invert());
+                    pictureBoxA.Image = ToBitmap(alphaChannel);
+                    break;
             }
-
-            return newImage;
+            RecombineChannels();
         }
 
-        private void invertButtonR_Click(object sender, EventArgs e)
-        {
-            pictureBoxR.Image = ToBitmap(Invert(pictureBoxR.Image));
-        }
+
 
         ///<summary>
         ///Helper function to convert bitmaps to ImageSharp images.
