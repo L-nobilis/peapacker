@@ -12,6 +12,11 @@ namespace peaPacker
         public int currentWidth;
         public int currentHeight;
 
+        public Image redChannel;
+        public Image blueChannel;
+        public Image greenChannel;
+        public Image alphaChannel;
+
         public Form1()
         {
             InitializeComponent();
@@ -57,26 +62,9 @@ namespace peaPacker
 
         }
 
-        private void pictureBoxR_Click(object sender, EventArgs e)
-        {
-            LoadIndividualChannel(0);
-        }
-
-        private void pictureBoxG_Click(object sender, EventArgs e)
-        {
-            LoadIndividualChannel(1);
-        }
-
-        private void pictureBoxB_Click(object sender, EventArgs e)
-        {
-            LoadIndividualChannel(2);
-        }
-
-        private void pictureBoxA_Click(object sender, EventArgs e)
-        {
-            LoadIndividualChannel(3);
-        }
-
+        ///<summary>
+        ///Called when individual channel boxes are clicked.
+        ///</summary>
         public void LoadIndividualChannel(int channel)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -108,6 +96,9 @@ namespace peaPacker
             }
         }
 
+        ///<summary>
+        ///Called to split image into channels, once for each channel.
+        ///</summary>
         public Image SplitOneChannel(Image sourceImage, int channel)
         {
             Image isolatedChannel = new Image<SixLabors.ImageSharp.PixelFormats.Rgba32>(sourceImage.Width, sourceImage.Height);
@@ -121,6 +112,7 @@ namespace peaPacker
                             row[x] = new System.Numerics.Vector4(row[x].X, row[x].X, row[x].X, 1);
                         }
                     }));
+                    redChannel = isolatedChannel;
                     break;
                 case 1:
                     isolatedChannel = sourceImage.Clone(g => g.ProcessPixelRowsAsVector4(row => {
@@ -129,6 +121,7 @@ namespace peaPacker
                             row[x] = new System.Numerics.Vector4(row[x].Y, row[x].Y, row[x].Y, 1);
                         }
                     }));
+                    greenChannel = isolatedChannel;
                     break;
                 case 2:
                     isolatedChannel = sourceImage.Clone(b => b.ProcessPixelRowsAsVector4(row => {
@@ -137,6 +130,7 @@ namespace peaPacker
                             row[x] = new System.Numerics.Vector4(row[x].Z, row[x].Z, row[x].Z, 1);
                         }
                     }));
+                    blueChannel = isolatedChannel;
                     break;
                 case 3:
                     isolatedChannel = sourceImage.Clone(a => a.ProcessPixelRowsAsVector4(row => {
@@ -145,19 +139,18 @@ namespace peaPacker
                             row[x] = new System.Numerics.Vector4(row[x].W, row[x].W, row[x].W, 1);
                         }
                     }));
+                    alphaChannel = isolatedChannel;
                     break;
             }
             return isolatedChannel;
         }
 
+        ///<summary>
+        ///Recombines channels and updates output preview.  Currently very sloooooow.
+        ///</summary>
         public void RecombineChannels()
         {
             Image<Rgba32> recombinedImage = new Image<SixLabors.ImageSharp.PixelFormats.Rgba32>(currentWidth, currentHeight);
-
-            Image redChannel = ToImageSharpImage((Bitmap)pictureBoxR.Image);
-            Image greenChannel = ToImageSharpImage((Bitmap)pictureBoxG.Image);
-            Image blueChannel = ToImageSharpImage((Bitmap)pictureBoxB.Image);
-            Image alphaChannel = ToImageSharpImage((Bitmap)pictureBoxA.Image);
 
             Bitmap bitmapOutput = new Bitmap(currentWidth, currentHeight);
             Bitmap bitmapRed = (Bitmap)pictureBoxR.Image;
@@ -208,7 +201,25 @@ namespace peaPacker
         {
 
         }
+        private void pictureBoxR_Click(object sender, EventArgs e)
+        {
+            LoadIndividualChannel(0);
+        }
 
+        private void pictureBoxG_Click(object sender, EventArgs e)
+        {
+            LoadIndividualChannel(1);
+        }
+
+        private void pictureBoxB_Click(object sender, EventArgs e)
+        {
+            LoadIndividualChannel(2);
+        }
+
+        private void pictureBoxA_Click(object sender, EventArgs e)
+        {
+            LoadIndividualChannel(3);
+        }
         private void pictureBoxOutput_Click(object sender, EventArgs e)
         {
             saveAsButton_Click(sender, e);
@@ -243,6 +254,29 @@ namespace peaPacker
             }
         }
 
+        ///<summary>
+        ///Inverts the passed-in image.
+        ///</summary>
+        private Image Invert(System.Drawing.Image source)
+        {
+            Image newImage = ToImageSharpImage((Bitmap)source);
+
+            using (newImage)
+            {
+                newImage.Mutate(x => x.Invert());
+            }
+
+            return newImage;
+        }
+
+        private void invertButtonR_Click(object sender, EventArgs e)
+        {
+            pictureBoxR.Image = ToBitmap(Invert(pictureBoxR.Image));
+        }
+
+        ///<summary>
+        ///Helper function to convert bitmaps to ImageSharp images.
+        ///</summary>
         public static Image ToImageSharpImage(Bitmap bitmap)
         {
             using (var memoryStream = new MemoryStream())
@@ -253,6 +287,9 @@ namespace peaPacker
             }
         }
 
+        ///<summary>
+        ///Helper function to convert ImageSharp images to bitmaps.
+        ///</summary>
         public static Bitmap ToBitmap(Image image)
         {
             using (var memoryStream = new MemoryStream())
@@ -263,7 +300,6 @@ namespace peaPacker
                 return new Bitmap(memoryStream);
             }
         }
-
 
     }
 

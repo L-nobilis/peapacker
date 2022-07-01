@@ -153,6 +153,7 @@
             this.invertButtonR.TabIndex = 0;
             this.invertButtonR.Text = "Invert";
             this.invertButtonR.UseVisualStyleBackColor = true;
+            this.invertButtonR.Click += new System.EventHandler(this.invertButtonR_Click);
             // 
             // fillButtonR
             // 
