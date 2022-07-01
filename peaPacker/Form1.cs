@@ -248,6 +248,20 @@ namespace peaPacker
             FillChannel(0);
         }
 
+        private void fillButtonG_Click(object sender, EventArgs e)
+        {
+            FillChannel(1);
+        }
+
+        private void fillButtonB_Click(object sender, EventArgs e)
+        {
+            FillChannel(2);
+        }
+
+        private void fillButtonA_Click(object sender, EventArgs e)
+        {
+            FillChannel(3);
+        }
         private void saveAsButton_Click(object sender, EventArgs e)
         {
             //Displays a Save File Dialog so the user can save the outputImage. 
@@ -375,7 +389,6 @@ namespace peaPacker
                 return new Bitmap(memoryStream);
             }
         }
-
 
     }
 

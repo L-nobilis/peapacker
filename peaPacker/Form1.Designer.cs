@@ -52,6 +52,9 @@
             this.saveAsButton = new System.Windows.Forms.Button();
             this.outputSizeLabel = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.fillButtonG = new System.Windows.Forms.Button();
+            this.fillButtonB = new System.Windows.Forms.Button();
+            this.fillButtonA = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerR1)).BeginInit();
             this.splitContainerR1.Panel1.SuspendLayout();
@@ -69,6 +72,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxG)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerG2)).BeginInit();
             this.splitContainerG2.Panel1.SuspendLayout();
+            this.splitContainerG2.Panel2.SuspendLayout();
             this.splitContainerG2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerB1)).BeginInit();
             this.splitContainerB1.Panel1.SuspendLayout();
@@ -77,6 +81,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerB2)).BeginInit();
             this.splitContainerB2.Panel1.SuspendLayout();
+            this.splitContainerB2.Panel2.SuspendLayout();
             this.splitContainerB2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerA1)).BeginInit();
             this.splitContainerA1.Panel1.SuspendLayout();
@@ -85,6 +90,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxA)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerA2)).BeginInit();
             this.splitContainerA2.Panel1.SuspendLayout();
+            this.splitContainerA2.Panel2.SuspendLayout();
             this.splitContainerA2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOutput)).BeginInit();
             this.SuspendLayout();
@@ -235,6 +241,10 @@
             // splitContainerG2.Panel1
             // 
             this.splitContainerG2.Panel1.Controls.Add(this.invertButtonG);
+            // 
+            // splitContainerG2.Panel2
+            // 
+            this.splitContainerG2.Panel2.Controls.Add(this.fillButtonG);
             this.splitContainerG2.Size = new System.Drawing.Size(230, 55);
             this.splitContainerG2.SplitterDistance = 110;
             this.splitContainerG2.TabIndex = 0;
@@ -289,6 +299,10 @@
             // splitContainerB2.Panel1
             // 
             this.splitContainerB2.Panel1.Controls.Add(this.invertButtonB);
+            // 
+            // splitContainerB2.Panel2
+            // 
+            this.splitContainerB2.Panel2.Controls.Add(this.fillButtonB);
             this.splitContainerB2.Size = new System.Drawing.Size(230, 58);
             this.splitContainerB2.SplitterDistance = 119;
             this.splitContainerB2.TabIndex = 0;
@@ -343,6 +357,10 @@
             // splitContainerA2.Panel1
             // 
             this.splitContainerA2.Panel1.Controls.Add(this.invertButtonA);
+            // 
+            // splitContainerA2.Panel2
+            // 
+            this.splitContainerA2.Panel2.Controls.Add(this.fillButtonA);
             this.splitContainerA2.Size = new System.Drawing.Size(233, 57);
             this.splitContainerA2.SplitterDistance = 120;
             this.splitContainerA2.TabIndex = 0;
@@ -394,6 +412,39 @@
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
+            // fillButtonG
+            // 
+            this.fillButtonG.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fillButtonG.Location = new System.Drawing.Point(0, 0);
+            this.fillButtonG.Name = "fillButtonG";
+            this.fillButtonG.Size = new System.Drawing.Size(116, 55);
+            this.fillButtonG.TabIndex = 2;
+            this.fillButtonG.Text = "Fill";
+            this.fillButtonG.UseVisualStyleBackColor = true;
+            this.fillButtonG.Click += new System.EventHandler(this.fillButtonG_Click);
+            // 
+            // fillButtonB
+            // 
+            this.fillButtonB.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fillButtonB.Location = new System.Drawing.Point(0, 0);
+            this.fillButtonB.Name = "fillButtonB";
+            this.fillButtonB.Size = new System.Drawing.Size(107, 58);
+            this.fillButtonB.TabIndex = 2;
+            this.fillButtonB.Text = "Fill";
+            this.fillButtonB.UseVisualStyleBackColor = true;
+            this.fillButtonB.Click += new System.EventHandler(this.fillButtonB_Click);
+            // 
+            // fillButtonA
+            // 
+            this.fillButtonA.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fillButtonA.Location = new System.Drawing.Point(0, 0);
+            this.fillButtonA.Name = "fillButtonA";
+            this.fillButtonA.Size = new System.Drawing.Size(109, 57);
+            this.fillButtonA.TabIndex = 2;
+            this.fillButtonA.Text = "Fill";
+            this.fillButtonA.UseVisualStyleBackColor = true;
+            this.fillButtonA.Click += new System.EventHandler(this.fillButtonA_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -419,6 +470,7 @@
             this.splitContainerG1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxG)).EndInit();
             this.splitContainerG2.Panel1.ResumeLayout(false);
+            this.splitContainerG2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerG2)).EndInit();
             this.splitContainerG2.ResumeLayout(false);
             this.splitContainerB1.Panel1.ResumeLayout(false);
@@ -427,6 +479,7 @@
             this.splitContainerB1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxB)).EndInit();
             this.splitContainerB2.Panel1.ResumeLayout(false);
+            this.splitContainerB2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerB2)).EndInit();
             this.splitContainerB2.ResumeLayout(false);
             this.splitContainerA1.Panel1.ResumeLayout(false);
@@ -435,6 +488,7 @@
             this.splitContainerA1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxA)).EndInit();
             this.splitContainerA2.Panel1.ResumeLayout(false);
+            this.splitContainerA2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerA2)).EndInit();
             this.splitContainerA2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOutput)).EndInit();
@@ -467,5 +521,8 @@
         private Button invertButtonB;
         private SplitContainer splitContainerA2;
         private Button invertButtonA;
+        private Button fillButtonG;
+        private Button fillButtonB;
+        private Button fillButtonA;
     }
 }
