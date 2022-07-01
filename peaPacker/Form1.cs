@@ -243,6 +243,25 @@ namespace peaPacker
             InvertChannel(3);
         }
 
+        private void fillButtonR_Click(object sender, EventArgs e)
+        {
+            FillChannel(0);
+        }
+
+        private void fillButtonG_Click(object sender, EventArgs e)
+        {
+            FillChannel(1);
+        }
+
+        private void fillButtonB_Click(object sender, EventArgs e)
+        {
+            FillChannel(2);
+        }
+
+        private void fillButtonA_Click(object sender, EventArgs e)
+        {
+            FillChannel(3);
+        }
         private void saveAsButton_Click(object sender, EventArgs e)
         {
             //Displays a Save File Dialog so the user can save the outputImage. 
@@ -299,6 +318,49 @@ namespace peaPacker
             RecombineChannels();
         }
 
+        private void FillChannel(int channel)
+        {
+            switch (channel)
+            {
+                case 0:
+                    redChannel.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
+                        for (int x = 0; x < row.Length; x++)
+                        {
+                            row[x] = new System.Numerics.Vector4(0, 0, 0, 1);
+                        }
+                    }));
+                    pictureBoxR.Image = ToBitmap(redChannel);
+                    break;
+                case 1:
+                    greenChannel.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
+                        for (int x = 0; x < row.Length; x++)
+                        {
+                            row[x] = new System.Numerics.Vector4(0, 0, 0, 1);
+                        }
+                    }));
+                    pictureBoxG.Image = ToBitmap(greenChannel);
+                    break;
+                case 2:
+                    blueChannel.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
+                        for (int x = 0; x < row.Length; x++)
+                        {
+                            row[x] = new System.Numerics.Vector4(0, 0, 0, 1);
+                        }
+                    }));
+                    pictureBoxB.Image = ToBitmap(blueChannel);
+                    break;
+                case 3:
+                    alphaChannel.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
+                        for (int x = 0; x < row.Length; x++)
+                        {
+                            row[x] = new System.Numerics.Vector4(0, 0, 0, 1);
+                        }
+                    }));
+                    pictureBoxA.Image = ToBitmap(alphaChannel);
+                    break;
+            }
+            RecombineChannels();
+        }
 
 
         ///<summary>
@@ -327,7 +389,6 @@ namespace peaPacker
                 return new Bitmap(memoryStream);
             }
         }
-
 
     }
 
