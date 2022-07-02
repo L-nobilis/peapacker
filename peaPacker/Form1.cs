@@ -9,6 +9,9 @@ namespace peaPacker
 
     public partial class Form1 : Form
     {
+        // Tracks if a user has opened an image yet or not.
+        private bool imageOpened = false;
+
         public int currentWidth;
         public int currentHeight;
 
@@ -33,18 +36,23 @@ namespace peaPacker
         /// </summary>
         private void DisableButtons()
         {
+            pictureBoxA.Enabled = false;
             fillButtonA.Enabled = false;
             invertButtonA.Enabled = false;
 
+            pictureBoxR.Enabled = false;
             fillButtonR.Enabled = false;
             invertButtonR.Enabled = false;
 
+            pictureBoxG.Enabled = false;
             fillButtonG.Enabled = false;
             invertButtonG.Enabled = false;
 
+            pictureBoxB.Enabled = false;
             fillButtonB.Enabled = false;
             invertButtonB.Enabled = false;
 
+            pictureBoxOutput.Enabled = false;
             saveAsButton.Enabled = false;
         }
 
@@ -53,18 +61,23 @@ namespace peaPacker
         /// </summary>
         private void EnableButtons()
         {
+            pictureBoxA.Enabled = true;
             fillButtonA.Enabled = true;
             invertButtonA.Enabled = true;
 
+            pictureBoxR.Enabled = true;
             fillButtonR.Enabled = true;
             invertButtonR.Enabled = true;
 
+            pictureBoxG.Enabled = true;
             fillButtonG.Enabled = true;
             invertButtonG.Enabled = true;
 
+            pictureBoxB.Enabled = true;
             fillButtonB.Enabled = true;
             invertButtonB.Enabled = true;
 
+            pictureBoxOutput.Enabled = true;
             saveAsButton.Enabled = true;
         }
 
@@ -103,6 +116,7 @@ namespace peaPacker
                 RecombineChannels();
                 outputSizeLabel.Text = $"Output size: {currentWidth} x {currentHeight}";
                 EnableButtons();
+                imageOpened = true;
             }
 
         }
@@ -115,7 +129,7 @@ namespace peaPacker
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 Image newImage = Image.Load(openFileDialog1.FileName);
-                if (newImage.Width != currentWidth || newImage.Height != currentHeight)
+                if (imageOpened && (newImage.Width != currentWidth || newImage.Height != currentHeight))
                 {
                     MessageBox.Show($"Channel size must match original image size: {currentWidth} x {currentHeight}");
                 }
@@ -198,10 +212,10 @@ namespace peaPacker
             Image<Rgba32> recombinedImage = new Image<SixLabors.ImageSharp.PixelFormats.Rgba32>(currentWidth, currentHeight);
 
             Bitmap bitmapOutput = new Bitmap(currentWidth, currentHeight);
-            Bitmap bitmapRed = (Bitmap)pictureBoxR.Image;
-            Bitmap bitmapGreen = (Bitmap)pictureBoxG.Image;
-            Bitmap bitmapBlue = (Bitmap)pictureBoxB.Image;
-            Bitmap bitmapAlpha = (Bitmap)pictureBoxA.Image;
+            Bitmap bitmapRed = ToBitmap(redChannel);
+            Bitmap bitmapGreen = ToBitmap(greenChannel);
+            Bitmap bitmapBlue = ToBitmap(blueChannel);
+            Bitmap bitmapAlpha = ToBitmap(alphaChannel);
 
             //i is always 0 here.  How can we access the index of a row?
             //redChannel.Clone(x => x.ProcessPixelRowsAsVector4(row => {
