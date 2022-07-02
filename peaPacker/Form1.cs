@@ -20,8 +20,53 @@ namespace peaPacker
         public Form1()
         {
             InitializeComponent();
+            Start();
         }
 
+        private void Start()
+        {
+            DisableButtons();
+        }
+
+        /// <summary>
+        /// Disables fill/invert buttons and save-as buttons. 
+        /// </summary>
+        private void DisableButtons()
+        {
+            fillButtonA.Enabled = false;
+            invertButtonA.Enabled = false;
+
+            fillButtonR.Enabled = false;
+            invertButtonR.Enabled = false;
+
+            fillButtonG.Enabled = false;
+            invertButtonG.Enabled = false;
+
+            fillButtonB.Enabled = false;
+            invertButtonB.Enabled = false;
+
+            saveAsButton.Enabled = false;
+        }
+
+        /// <summary>
+        /// Enables invert buttons and save-as buttons. 
+        /// </summary>
+        private void EnableButtons()
+        {
+            fillButtonA.Enabled = true;
+            invertButtonA.Enabled = true;
+
+            fillButtonR.Enabled = true;
+            invertButtonR.Enabled = true;
+
+            fillButtonG.Enabled = true;
+            invertButtonG.Enabled = true;
+
+            fillButtonB.Enabled = true;
+            invertButtonB.Enabled = true;
+
+            saveAsButton.Enabled = true;
+        }
 
         private void openFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -56,8 +101,8 @@ namespace peaPacker
                 }
 
                 RecombineChannels();
-
                 outputSizeLabel.Text = $"Output size: {currentWidth} x {currentHeight}";
+                EnableButtons();
             }
 
         }

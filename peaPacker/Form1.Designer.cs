@@ -40,21 +40,21 @@
             this.pictureBoxG = new System.Windows.Forms.PictureBox();
             this.splitContainerG2 = new System.Windows.Forms.SplitContainer();
             this.invertButtonG = new System.Windows.Forms.Button();
+            this.fillButtonG = new System.Windows.Forms.Button();
             this.splitContainerB1 = new System.Windows.Forms.SplitContainer();
             this.pictureBoxB = new System.Windows.Forms.PictureBox();
             this.splitContainerB2 = new System.Windows.Forms.SplitContainer();
             this.invertButtonB = new System.Windows.Forms.Button();
+            this.fillButtonB = new System.Windows.Forms.Button();
             this.splitContainerA1 = new System.Windows.Forms.SplitContainer();
             this.pictureBoxA = new System.Windows.Forms.PictureBox();
             this.splitContainerA2 = new System.Windows.Forms.SplitContainer();
             this.invertButtonA = new System.Windows.Forms.Button();
+            this.fillButtonA = new System.Windows.Forms.Button();
             this.pictureBoxOutput = new System.Windows.Forms.PictureBox();
             this.saveAsButton = new System.Windows.Forms.Button();
             this.outputSizeLabel = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.fillButtonG = new System.Windows.Forms.Button();
-            this.fillButtonB = new System.Windows.Forms.Button();
-            this.fillButtonA = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerR1)).BeginInit();
             this.splitContainerR1.Panel1.SuspendLayout();
@@ -171,6 +171,7 @@
             // invertButtonR
             // 
             this.invertButtonR.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.invertButtonR.Enabled = false;
             this.invertButtonR.Location = new System.Drawing.Point(0, 0);
             this.invertButtonR.Name = "invertButtonR";
             this.invertButtonR.Size = new System.Drawing.Size(110, 56);
@@ -182,6 +183,7 @@
             // fillButtonR
             // 
             this.fillButtonR.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fillButtonR.Enabled = false;
             this.fillButtonR.Location = new System.Drawing.Point(0, 0);
             this.fillButtonR.Name = "fillButtonR";
             this.fillButtonR.Size = new System.Drawing.Size(116, 56);
@@ -252,6 +254,7 @@
             // invertButtonG
             // 
             this.invertButtonG.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.invertButtonG.Enabled = false;
             this.invertButtonG.Location = new System.Drawing.Point(0, 0);
             this.invertButtonG.Name = "invertButtonG";
             this.invertButtonG.Size = new System.Drawing.Size(110, 55);
@@ -259,6 +262,18 @@
             this.invertButtonG.Text = "Invert";
             this.invertButtonG.UseVisualStyleBackColor = true;
             this.invertButtonG.Click += new System.EventHandler(this.invertButtonG_Click);
+            // 
+            // fillButtonG
+            // 
+            this.fillButtonG.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fillButtonG.Enabled = false;
+            this.fillButtonG.Location = new System.Drawing.Point(0, 0);
+            this.fillButtonG.Name = "fillButtonG";
+            this.fillButtonG.Size = new System.Drawing.Size(116, 55);
+            this.fillButtonG.TabIndex = 2;
+            this.fillButtonG.Text = "Fill";
+            this.fillButtonG.UseVisualStyleBackColor = true;
+            this.fillButtonG.Click += new System.EventHandler(this.fillButtonG_Click);
             // 
             // splitContainerB1
             // 
@@ -310,6 +325,7 @@
             // invertButtonB
             // 
             this.invertButtonB.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.invertButtonB.Enabled = false;
             this.invertButtonB.Location = new System.Drawing.Point(0, 0);
             this.invertButtonB.Name = "invertButtonB";
             this.invertButtonB.Size = new System.Drawing.Size(119, 58);
@@ -317,6 +333,18 @@
             this.invertButtonB.Text = "Invert";
             this.invertButtonB.UseVisualStyleBackColor = true;
             this.invertButtonB.Click += new System.EventHandler(this.invertButtonB_Click);
+            // 
+            // fillButtonB
+            // 
+            this.fillButtonB.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fillButtonB.Enabled = false;
+            this.fillButtonB.Location = new System.Drawing.Point(0, 0);
+            this.fillButtonB.Name = "fillButtonB";
+            this.fillButtonB.Size = new System.Drawing.Size(107, 58);
+            this.fillButtonB.TabIndex = 2;
+            this.fillButtonB.Text = "Fill";
+            this.fillButtonB.UseVisualStyleBackColor = true;
+            this.fillButtonB.Click += new System.EventHandler(this.fillButtonB_Click);
             // 
             // splitContainerA1
             // 
@@ -368,6 +396,7 @@
             // invertButtonA
             // 
             this.invertButtonA.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.invertButtonA.Enabled = false;
             this.invertButtonA.Location = new System.Drawing.Point(0, 0);
             this.invertButtonA.Name = "invertButtonA";
             this.invertButtonA.Size = new System.Drawing.Size(120, 57);
@@ -375,6 +404,18 @@
             this.invertButtonA.Text = "Invert";
             this.invertButtonA.UseVisualStyleBackColor = true;
             this.invertButtonA.Click += new System.EventHandler(this.invertButtonA_Click);
+            // 
+            // fillButtonA
+            // 
+            this.fillButtonA.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fillButtonA.Enabled = false;
+            this.fillButtonA.Location = new System.Drawing.Point(0, 0);
+            this.fillButtonA.Name = "fillButtonA";
+            this.fillButtonA.Size = new System.Drawing.Size(109, 57);
+            this.fillButtonA.TabIndex = 2;
+            this.fillButtonA.Text = "Fill";
+            this.fillButtonA.UseVisualStyleBackColor = true;
+            this.fillButtonA.Click += new System.EventHandler(this.fillButtonA_Click);
             // 
             // pictureBoxOutput
             // 
@@ -411,39 +452,6 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
-            // 
-            // fillButtonG
-            // 
-            this.fillButtonG.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fillButtonG.Location = new System.Drawing.Point(0, 0);
-            this.fillButtonG.Name = "fillButtonG";
-            this.fillButtonG.Size = new System.Drawing.Size(116, 55);
-            this.fillButtonG.TabIndex = 2;
-            this.fillButtonG.Text = "Fill";
-            this.fillButtonG.UseVisualStyleBackColor = true;
-            this.fillButtonG.Click += new System.EventHandler(this.fillButtonG_Click);
-            // 
-            // fillButtonB
-            // 
-            this.fillButtonB.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fillButtonB.Location = new System.Drawing.Point(0, 0);
-            this.fillButtonB.Name = "fillButtonB";
-            this.fillButtonB.Size = new System.Drawing.Size(107, 58);
-            this.fillButtonB.TabIndex = 2;
-            this.fillButtonB.Text = "Fill";
-            this.fillButtonB.UseVisualStyleBackColor = true;
-            this.fillButtonB.Click += new System.EventHandler(this.fillButtonB_Click);
-            // 
-            // fillButtonA
-            // 
-            this.fillButtonA.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fillButtonA.Location = new System.Drawing.Point(0, 0);
-            this.fillButtonA.Name = "fillButtonA";
-            this.fillButtonA.Size = new System.Drawing.Size(109, 57);
-            this.fillButtonA.TabIndex = 2;
-            this.fillButtonA.Text = "Fill";
-            this.fillButtonA.UseVisualStyleBackColor = true;
-            this.fillButtonA.Click += new System.EventHandler(this.fillButtonA_Click);
             // 
             // Form1
             // 
