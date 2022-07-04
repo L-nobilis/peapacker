@@ -29,6 +29,51 @@ namespace peaPacker
         private void Start()
         {
             DisableButtons();
+            openImage.AllowDrop = true;
+        }
+
+        private void openImage_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Copy;
+        }
+
+        private void openImage_DragDrop(object sender, DragEventArgs e)
+        {
+            var data = e.Data.GetData(DataFormats.FileDrop);
+            if (data != null)
+            {
+                var fileNames = data as string[];
+                if (fileNames.Length > 0)
+                {
+                    Image newImage = Image.Load(fileNames[0]);
+                    currentWidth = newImage.Width;
+                    currentHeight = newImage.Height;
+
+                    PictureBox[] channelBoxes = new PictureBox[4];
+                    channelBoxes[0] = pictureBoxR;
+                    channelBoxes[1] = pictureBoxG;
+                    channelBoxes[2] = pictureBoxB;
+                    channelBoxes[3] = pictureBoxA;
+
+                    int i = 0;
+                    foreach (PictureBox box in channelBoxes)
+                    {
+                        var stream = new System.IO.MemoryStream();
+                        SplitOneChannel(newImage, i).SaveAsBmp(stream);
+                        System.Drawing.Image channelImg = System.Drawing.Image.FromStream(stream);
+
+                        box.Image?.Dispose();
+                        box.Image = channelImg;
+
+                        i++;
+                    }
+
+                    RecombineChannels();
+                    outputSizeLabel.Text = $"Output size: {currentWidth} x {currentHeight}";
+                    EnableButtons();
+                    imageOpened = true;
+                }
+            }
         }
 
         /// <summary>

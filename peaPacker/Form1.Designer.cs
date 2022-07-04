@@ -202,6 +202,8 @@
             this.openImage.Text = "Open image...";
             this.openImage.UseVisualStyleBackColor = true;
             this.openImage.Click += new System.EventHandler(this.openImage_Click);
+            this.openImage.DragDrop += new System.Windows.Forms.DragEventHandler(this.openImage_DragDrop);
+            this.openImage.DragEnter += new System.Windows.Forms.DragEventHandler(this.openImage_DragEnter);
             // 
             // splitContainerG1
             // 
