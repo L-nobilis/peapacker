@@ -45,33 +45,7 @@ namespace peaPacker
                 var fileNames = data as string[];
                 if (fileNames.Length > 0)
                 {
-                    Image newImage = Image.Load(fileNames[0]);
-                    currentWidth = newImage.Width;
-                    currentHeight = newImage.Height;
-
-                    PictureBox[] channelBoxes = new PictureBox[4];
-                    channelBoxes[0] = pictureBoxR;
-                    channelBoxes[1] = pictureBoxG;
-                    channelBoxes[2] = pictureBoxB;
-                    channelBoxes[3] = pictureBoxA;
-
-                    int i = 0;
-                    foreach (PictureBox box in channelBoxes)
-                    {
-                        var stream = new System.IO.MemoryStream();
-                        SplitOneChannel(newImage, i).SaveAsBmp(stream);
-                        System.Drawing.Image channelImg = System.Drawing.Image.FromStream(stream);
-
-                        box.Image?.Dispose();
-                        box.Image = channelImg;
-
-                        i++;
-                    }
-
-                    RecombineChannels();
-                    outputSizeLabel.Text = $"Output size: {currentWidth} x {currentHeight}";
-                    EnableButtons();
-                    imageOpened = true;
+                    LoadRGBAImage(fileNames[0]);
                 }
             }
         }
@@ -135,34 +109,44 @@ namespace peaPacker
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                Image newImage = Image.Load(openFileDialog1.FileName);
-                currentWidth = newImage.Width;
-                currentHeight = newImage.Height;
-
-                PictureBox[] channelBoxes = new PictureBox[4];
-                channelBoxes[0] = pictureBoxR;
-                channelBoxes[1] = pictureBoxG;
-                channelBoxes[2] = pictureBoxB;
-                channelBoxes[3] = pictureBoxA;
-
-                int i = 0;
-                foreach (PictureBox box in channelBoxes)
-                {
-                    var stream = new System.IO.MemoryStream();
-                    SplitOneChannel(newImage, i).SaveAsBmp(stream);
-                    System.Drawing.Image channelImg = System.Drawing.Image.FromStream(stream);
-
-                    box.Image?.Dispose();
-                    box.Image = channelImg;
-
-                    i++;
-                }
-
-                RecombineChannels();
-                outputSizeLabel.Text = $"Output size: {currentWidth} x {currentHeight}";
-                EnableButtons();
-                imageOpened = true;
+                LoadRGBAImage(openFileDialog1.FileName);
             }
+
+        }
+
+        /// <summary>
+        /// The main function used when loading in a whole image.  
+        /// </summary>
+        /// <param name="fileName"></param>
+        public void LoadRGBAImage(string fileName)
+        {
+            Image newImage = Image.Load(fileName);
+            currentWidth = newImage.Width;
+            currentHeight = newImage.Height;
+
+            PictureBox[] channelBoxes = new PictureBox[4];
+            channelBoxes[0] = pictureBoxR;
+            channelBoxes[1] = pictureBoxG;
+            channelBoxes[2] = pictureBoxB;
+            channelBoxes[3] = pictureBoxA;
+
+            int i = 0;
+            foreach (PictureBox box in channelBoxes)
+            {
+                var stream = new System.IO.MemoryStream();
+                SplitOneChannel(newImage, i).SaveAsBmp(stream);
+                System.Drawing.Image channelImg = System.Drawing.Image.FromStream(stream);
+
+                box.Image?.Dispose();
+                box.Image = channelImg;
+
+                i++;
+            }
+
+            RecombineChannels();
+            outputSizeLabel.Text = $"Output size: {currentWidth} x {currentHeight}";
+            EnableButtons();
+            imageOpened = true;
 
         }
 
