@@ -199,7 +199,7 @@
             this.openImage.Name = "openImage";
             this.openImage.Size = new System.Drawing.Size(230, 44);
             this.openImage.TabIndex = 1;
-            this.openImage.Text = "Open image...";
+            this.openImage.Text = "Drag image here or click to browse";
             this.openImage.UseVisualStyleBackColor = true;
             this.openImage.Click += new System.EventHandler(this.openImage_Click);
             this.openImage.DragDrop += new System.Windows.Forms.DragEventHandler(this.openImage_DragDrop);
