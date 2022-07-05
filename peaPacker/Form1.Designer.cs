@@ -237,6 +237,8 @@
             this.pictureBoxG.TabIndex = 0;
             this.pictureBoxG.TabStop = false;
             this.pictureBoxG.Click += new System.EventHandler(this.pictureBoxG_Click);
+            this.pictureBoxG.DragDrop += new System.Windows.Forms.DragEventHandler(this.pictureBoxG_DragDrop);
+            this.pictureBoxG.DragEnter += new System.Windows.Forms.DragEventHandler(this.openImage_DragEnter);
             // 
             // splitContainerG2
             // 
@@ -308,6 +310,8 @@
             this.pictureBoxB.TabIndex = 0;
             this.pictureBoxB.TabStop = false;
             this.pictureBoxB.Click += new System.EventHandler(this.pictureBoxB_Click);
+            this.pictureBoxB.DragDrop += new System.Windows.Forms.DragEventHandler(this.pictureBoxB_DragDrop);
+            this.pictureBoxB.DragEnter += new System.Windows.Forms.DragEventHandler(this.openImage_DragEnter);
             // 
             // splitContainerB2
             // 
@@ -379,6 +383,8 @@
             this.pictureBoxA.TabIndex = 0;
             this.pictureBoxA.TabStop = false;
             this.pictureBoxA.Click += new System.EventHandler(this.pictureBoxA_Click);
+            this.pictureBoxA.DragDrop += new System.Windows.Forms.DragEventHandler(this.pictureBoxA_DragDrop);
+            this.pictureBoxA.DragEnter += new System.Windows.Forms.DragEventHandler(this.openImage_DragEnter);
             // 
             // splitContainerA2
             // 

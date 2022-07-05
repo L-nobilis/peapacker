@@ -369,7 +369,7 @@ namespace peaPacker
         }
 
         /// <summary>
-        /// Event for drag/dropping over Open Image button
+        /// Event for drag/dropping over Open Image button or channel boxes
         /// </summary>
         private void openImage_DragEnter(object sender, DragEventArgs e)
         {
@@ -403,7 +403,43 @@ namespace peaPacker
                 }
             }
         }
+        public void pictureBoxG_DragDrop(object sender, DragEventArgs e)
+        {
+            var data = e.Data.GetData(DataFormats.FileDrop);
+            if (data != null)
+            {
+                var fileNames = data as string[];
+                if (fileNames.Length > 0)
+                {
+                    SetIndividualChannel(SplitOneChannel(LoadRGBAImage(fileNames[0]), 1), 1);
+                }
+            }
+        }
 
+        public void pictureBoxB_DragDrop(object sender, DragEventArgs e)
+        {
+            var data = e.Data.GetData(DataFormats.FileDrop);
+            if (data != null)
+            {
+                var fileNames = data as string[];
+                if (fileNames.Length > 0)
+                {
+                    SetIndividualChannel(SplitOneChannel(LoadRGBAImage(fileNames[0]), 2), 2);
+                }
+            }
+        }
+        public void pictureBoxA_DragDrop(object sender, DragEventArgs e)
+        {
+            var data = e.Data.GetData(DataFormats.FileDrop);
+            if (data != null)
+            {
+                var fileNames = data as string[];
+                if (fileNames.Length > 0)
+                {
+                    SetIndividualChannel(SplitOneChannel(LoadRGBAImage(fileNames[0]), 3), 3);
+                }
+            }
+        }
         private void splitContainerG_SplitterMoved(object sender, SplitterEventArgs e)
         {
 
