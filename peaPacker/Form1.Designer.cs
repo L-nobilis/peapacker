@@ -150,6 +150,8 @@
             this.pictureBoxR.TabIndex = 0;
             this.pictureBoxR.TabStop = false;
             this.pictureBoxR.Click += new System.EventHandler(this.pictureBoxR_Click);
+            this.pictureBoxR.DragDrop += new System.Windows.Forms.DragEventHandler(this.pictureBoxR_DragDrop);
+            this.pictureBoxR.DragEnter += new System.Windows.Forms.DragEventHandler(this.openImage_DragEnter);
             // 
             // splitContainerR2
             // 

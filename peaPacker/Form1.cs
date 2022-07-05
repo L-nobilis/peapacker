@@ -40,12 +40,22 @@ namespace peaPacker
         /// The main function used when loading in a whole image.  
         /// </summary>
         /// <param name="fileName"></param>
-        public void LoadRGBAImage(string fileName)
+        public Image LoadRGBAImage(string fileName)
         {
             Image newImage = Image.Load(fileName);
-            currentWidth = newImage.Width;
-            currentHeight = newImage.Height;
+            return newImage;
+        }
 
+        /// <summary>
+        /// Sets the passed in image to be our current working image and splits its channels. 
+        /// </summary>
+        /// <param name="image"></param>
+        public void SetRGBAImage(Image image)
+        {
+            currentWidth = image.Width;
+            currentHeight = image.Height;
+
+            //Grab references to all four picture boxes used to display our channels
             PictureBox[] channelBoxes = new PictureBox[4];
             channelBoxes[0] = pictureBoxR;
             channelBoxes[1] = pictureBoxG;
@@ -56,7 +66,7 @@ namespace peaPacker
             foreach (PictureBox box in channelBoxes)
             {
                 var stream = new System.IO.MemoryStream();
-                SplitOneChannel(newImage, i).SaveAsBmp(stream);
+                SplitOneChannel(image, i).SaveAsBmp(stream);
                 System.Drawing.Image channelImg = System.Drawing.Image.FromStream(stream);
 
                 box.Image?.Dispose();
@@ -76,7 +86,7 @@ namespace peaPacker
         }
 
         ///<summary>
-        ///Called when individual channel boxes are clicked.
+        ///Called when individual channel boxes are clicked or dragged into.
         ///</summary>
         public void LoadIndividualChannel(int channel)
         {
@@ -89,30 +99,40 @@ namespace peaPacker
                 }
                 else
                 {
-                    switch (channel)
-                    {
-                        case 0:
-                            pictureBoxR.Image = ToBitmap(SplitOneChannel(newImage, channel));
-                            break;
-                        case 1:
-                            pictureBoxG.Image = ToBitmap(SplitOneChannel(newImage, channel));
-                            break;
-                        case 2:
-                            pictureBoxB.Image = ToBitmap(SplitOneChannel(newImage, channel));
-                            break;
-                        case 3:
-                            pictureBoxA.Image = ToBitmap(SplitOneChannel(newImage, channel));
-                            break;
-                    }
-                    RecombineChannels();
+                    SetIndividualChannel(newImage, channel);
                 }
             }
         }
 
-        ///<summary>
-        ///Called to split image into channels, once for each channel.
-        ///</summary>
-        public Image SplitOneChannel(Image sourceImage, int channel)
+        /// <summary>
+        /// Replaces the appropriate picture box's image with the passed in image.  Calls RecombineChannels when finished.
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="channel">0: R, 1: G, 2: B, 3: A</param>
+        public void SetIndividualChannel(Image image, int channel)
+        {
+            switch (channel)
+            {
+                case 0:
+                    pictureBoxR.Image = ToBitmap(SplitOneChannel(image, channel));
+                    break;
+                case 1:
+                    pictureBoxG.Image = ToBitmap(SplitOneChannel(image, channel));
+                    break;
+                case 2:
+                    pictureBoxB.Image = ToBitmap(SplitOneChannel(image, channel));
+                    break;
+                case 3:
+                    pictureBoxA.Image = ToBitmap(SplitOneChannel(image, channel));
+                    break;
+            }
+            RecombineChannels();
+        }
+
+            ///<summary>
+            ///Called to split image into channels, once for each channel.
+            ///</summary>
+            public Image SplitOneChannel(Image sourceImage, int channel)
         {
             Image isolatedChannel = new Image<SixLabors.ImageSharp.PixelFormats.Rgba32>(sourceImage.Width, sourceImage.Height);
 
@@ -343,7 +363,7 @@ namespace peaPacker
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                LoadRGBAImage(openFileDialog1.FileName);
+                SetRGBAImage(LoadRGBAImage(openFileDialog1.FileName));
             }
 
         }
@@ -366,7 +386,20 @@ namespace peaPacker
                 var fileNames = data as string[];
                 if (fileNames.Length > 0)
                 {
-                    LoadRGBAImage(fileNames[0]);
+                    SetRGBAImage(LoadRGBAImage(fileNames[0]));
+                }
+            }
+        }
+
+        public void pictureBoxR_DragDrop(object sender, DragEventArgs e)
+        {
+            var data = e.Data.GetData(DataFormats.FileDrop);
+            if (data != null)
+            {
+                var fileNames = data as string[];
+                if (fileNames.Length > 0)
+                {
+                    SetIndividualChannel(SplitOneChannel(LoadRGBAImage(fileNames[0]), 0), 0);
                 }
             }
         }
