@@ -30,6 +30,7 @@ namespace peaPacker
         {
             DisableButtons();
             openImage.AllowDrop = true;
+            SetAllTooltips();
         }
 
 
@@ -535,6 +536,40 @@ namespace peaPacker
             }
         }
 
+        // =================================================== Setup Stuff ============================================================
+
+        /// <summary>
+        /// Gives tooltips to all our controls.
+        /// </summary>
+        public void SetAllTooltips()
+        {
+            Dictionary<Control, string> tooltips = new Dictionary<Control, string>();
+
+            //tooltips.Add(openImage, "Open an image.");
+            tooltips.Add(invertButtonA, "Invert alpha channel");
+            tooltips.Add(invertButtonB, "Invert blue channel");
+            tooltips.Add(invertButtonR, "Invert red channel");
+            tooltips.Add(invertButtonG, "Invert green channel");
+
+            tooltips.Add(fillButtonA, "Fill alpha channel with black pixels");
+            tooltips.Add(fillButtonR, "Fill red channel with black pixels");
+            tooltips.Add(fillButtonG, "Fill green channel with black pixels");
+            tooltips.Add(fillButtonB, "Fill blue channel with black pixels");
+
+            tooltips.Add(pictureBoxA, "Load individual alpha channel");
+            tooltips.Add(pictureBoxR, "Load individual red channel");
+            tooltips.Add(pictureBoxG, "Load individual green channel");
+            tooltips.Add(pictureBoxB, "Load individual blue channel");
+            //tooltips.Add(saveAsButton, "Save new image.");
+
+            foreach (KeyValuePair<Control, string> entry in tooltips)
+            {
+                ToolTip newToolTip = new ToolTip();
+                newToolTip.SetToolTip(entry.Key, entry.Value);
+            }
+
+        }
+
         // ===================================================  Image Type Conversion Helpers ===================================================  
         ///<summary>
         ///Helper function to convert bitmaps to ImageSharp images.
@@ -561,6 +596,16 @@ namespace peaPacker
                 memoryStream.Seek(0, SeekOrigin.Begin);
                 return new Bitmap(memoryStream);
             }
+        }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel1_Paint_1(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
