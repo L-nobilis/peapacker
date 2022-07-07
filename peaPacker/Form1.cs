@@ -32,9 +32,6 @@ namespace peaPacker
             openImage.AllowDrop = true;
             SetAllTooltips();
         }
-
-
-
         // ====================================================  Load and Recombine Channel(s) ====================================================  
 
         /// <summary>
@@ -44,7 +41,7 @@ namespace peaPacker
         public Image LoadRGBAImage(string fileName)
         {
             Image newImage = Image.Load(fileName);
-            pathLabel.Text = $"Loaded image: {fileName}";
+            pathLabel.Text = $"Loaded image: \n{fileName}";
             return newImage;
         }
 
