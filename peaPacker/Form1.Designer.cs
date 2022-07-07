@@ -150,6 +150,8 @@
             this.pictureBoxR.TabIndex = 0;
             this.pictureBoxR.TabStop = false;
             this.pictureBoxR.Click += new System.EventHandler(this.pictureBoxR_Click);
+            this.pictureBoxR.DragDrop += new System.Windows.Forms.DragEventHandler(this.pictureBoxR_DragDrop);
+            this.pictureBoxR.DragEnter += new System.Windows.Forms.DragEventHandler(this.openImage_DragEnter);
             // 
             // splitContainerR2
             // 
@@ -199,9 +201,11 @@
             this.openImage.Name = "openImage";
             this.openImage.Size = new System.Drawing.Size(230, 44);
             this.openImage.TabIndex = 1;
-            this.openImage.Text = "Open image...";
+            this.openImage.Text = "Drag image here or click to browse";
             this.openImage.UseVisualStyleBackColor = true;
             this.openImage.Click += new System.EventHandler(this.openImage_Click);
+            this.openImage.DragDrop += new System.Windows.Forms.DragEventHandler(this.openImage_DragDrop);
+            this.openImage.DragEnter += new System.Windows.Forms.DragEventHandler(this.openImage_DragEnter);
             // 
             // splitContainerG1
             // 
@@ -233,6 +237,8 @@
             this.pictureBoxG.TabIndex = 0;
             this.pictureBoxG.TabStop = false;
             this.pictureBoxG.Click += new System.EventHandler(this.pictureBoxG_Click);
+            this.pictureBoxG.DragDrop += new System.Windows.Forms.DragEventHandler(this.pictureBoxG_DragDrop);
+            this.pictureBoxG.DragEnter += new System.Windows.Forms.DragEventHandler(this.openImage_DragEnter);
             // 
             // splitContainerG2
             // 
@@ -304,6 +310,8 @@
             this.pictureBoxB.TabIndex = 0;
             this.pictureBoxB.TabStop = false;
             this.pictureBoxB.Click += new System.EventHandler(this.pictureBoxB_Click);
+            this.pictureBoxB.DragDrop += new System.Windows.Forms.DragEventHandler(this.pictureBoxB_DragDrop);
+            this.pictureBoxB.DragEnter += new System.Windows.Forms.DragEventHandler(this.openImage_DragEnter);
             // 
             // splitContainerB2
             // 
@@ -375,6 +383,8 @@
             this.pictureBoxA.TabIndex = 0;
             this.pictureBoxA.TabStop = false;
             this.pictureBoxA.Click += new System.EventHandler(this.pictureBoxA_Click);
+            this.pictureBoxA.DragDrop += new System.Windows.Forms.DragEventHandler(this.pictureBoxA_DragDrop);
+            this.pictureBoxA.DragEnter += new System.Windows.Forms.DragEventHandler(this.openImage_DragEnter);
             // 
             // splitContainerA2
             // 

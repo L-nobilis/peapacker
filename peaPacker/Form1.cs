@@ -29,100 +29,64 @@ namespace peaPacker
         private void Start()
         {
             DisableButtons();
+            openImage.AllowDrop = true;
+        }
+
+
+
+        // ====================================================  Load and Recombine Channel(s) ====================================================  
+
+        /// <summary>
+        /// The main function used when loading in a whole image.  
+        /// </summary>
+        /// <param name="fileName"></param>
+        public Image LoadRGBAImage(string fileName)
+        {
+            Image newImage = Image.Load(fileName);
+            return newImage;
         }
 
         /// <summary>
-        /// Disables fill/invert buttons and save-as buttons. 
+        /// Sets the passed in image to be our current working image and splits its channels. 
         /// </summary>
-        private void DisableButtons()
+        /// <param name="image"></param>
+        public void SetRGBAImage(Image image)
         {
-            pictureBoxA.Enabled = false;
-            fillButtonA.Enabled = false;
-            invertButtonA.Enabled = false;
+            currentWidth = image.Width;
+            currentHeight = image.Height;
 
-            pictureBoxR.Enabled = false;
-            fillButtonR.Enabled = false;
-            invertButtonR.Enabled = false;
+            //Grab references to all four picture boxes used to display our channels
+            PictureBox[] channelBoxes = new PictureBox[4];
+            channelBoxes[0] = pictureBoxR;
+            channelBoxes[1] = pictureBoxG;
+            channelBoxes[2] = pictureBoxB;
+            channelBoxes[3] = pictureBoxA;
 
-            pictureBoxG.Enabled = false;
-            fillButtonG.Enabled = false;
-            invertButtonG.Enabled = false;
-
-            pictureBoxB.Enabled = false;
-            fillButtonB.Enabled = false;
-            invertButtonB.Enabled = false;
-
-            pictureBoxOutput.Enabled = false;
-            saveAsButton.Enabled = false;
-        }
-
-        /// <summary>
-        /// Enables invert buttons and save-as buttons. 
-        /// </summary>
-        private void EnableButtons()
-        {
-            pictureBoxA.Enabled = true;
-            fillButtonA.Enabled = true;
-            invertButtonA.Enabled = true;
-
-            pictureBoxR.Enabled = true;
-            fillButtonR.Enabled = true;
-            invertButtonR.Enabled = true;
-
-            pictureBoxG.Enabled = true;
-            fillButtonG.Enabled = true;
-            invertButtonG.Enabled = true;
-
-            pictureBoxB.Enabled = true;
-            fillButtonB.Enabled = true;
-            invertButtonB.Enabled = true;
-
-            pictureBoxOutput.Enabled = true;
-            saveAsButton.Enabled = true;
-        }
-
-        private void openFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-
-        }
-
-        private void openImage_Click(object sender, EventArgs e)
-        {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            int i = 0;
+            foreach (PictureBox box in channelBoxes)
             {
-                Image newImage = Image.Load(openFileDialog1.FileName);
-                currentWidth = newImage.Width;
-                currentHeight = newImage.Height;
+                var stream = new System.IO.MemoryStream();
+                SplitOneChannel(image, i).SaveAsBmp(stream);
+                System.Drawing.Image channelImg = System.Drawing.Image.FromStream(stream);
 
-                PictureBox[] channelBoxes = new PictureBox[4];
-                channelBoxes[0] = pictureBoxR;
-                channelBoxes[1] = pictureBoxG;
-                channelBoxes[2] = pictureBoxB;
-                channelBoxes[3] = pictureBoxA;
+                box.Image?.Dispose();
+                box.Image = channelImg;
 
-                int i = 0;
-                foreach (PictureBox box in channelBoxes)
-                {
-                    var stream = new System.IO.MemoryStream();
-                    SplitOneChannel(newImage, i).SaveAsBmp(stream);
-                    System.Drawing.Image channelImg = System.Drawing.Image.FromStream(stream);
-
-                    box.Image?.Dispose();
-                    box.Image = channelImg;
-
-                    i++;
-                }
-
-                RecombineChannels();
-                outputSizeLabel.Text = $"Output size: {currentWidth} x {currentHeight}";
-                EnableButtons();
-                imageOpened = true;
+                i++;
             }
 
+            RecombineChannels();
+            outputSizeLabel.Text = $"Output size: {currentWidth} x {currentHeight}";
+            EnableButtons();
+            imageOpened = true;
+            pictureBoxA.AllowDrop = true;
+            pictureBoxR.AllowDrop = true;
+            pictureBoxG.AllowDrop = true;
+            pictureBoxB.AllowDrop = true;
         }
 
         ///<summary>
-        ///Called when individual channel boxes are clicked.
+        ///Called when individual channel boxes are clicked or dragged into.
         ///</summary>
         public void LoadIndividualChannel(int channel)
         {
@@ -135,30 +99,40 @@ namespace peaPacker
                 }
                 else
                 {
-                    switch (channel)
-                    {
-                        case 0:
-                            pictureBoxR.Image = ToBitmap(SplitOneChannel(newImage, channel));
-                            break;
-                        case 1:
-                            pictureBoxG.Image = ToBitmap(SplitOneChannel(newImage, channel));
-                            break;
-                        case 2:
-                            pictureBoxB.Image = ToBitmap(SplitOneChannel(newImage, channel));
-                            break;
-                        case 3:
-                            pictureBoxA.Image = ToBitmap(SplitOneChannel(newImage, channel));
-                            break;
-                    }
-                    RecombineChannels();
+                    SetIndividualChannel(newImage, channel);
                 }
             }
         }
 
-        ///<summary>
-        ///Called to split image into channels, once for each channel.
-        ///</summary>
-        public Image SplitOneChannel(Image sourceImage, int channel)
+        /// <summary>
+        /// Replaces the appropriate picture box's image with the passed in image.  Calls RecombineChannels when finished.
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="channel">0: R, 1: G, 2: B, 3: A</param>
+        public void SetIndividualChannel(Image image, int channel)
+        {
+            switch (channel)
+            {
+                case 0:
+                    pictureBoxR.Image = ToBitmap(SplitOneChannel(image, channel));
+                    break;
+                case 1:
+                    pictureBoxG.Image = ToBitmap(SplitOneChannel(image, channel));
+                    break;
+                case 2:
+                    pictureBoxB.Image = ToBitmap(SplitOneChannel(image, channel));
+                    break;
+                case 3:
+                    pictureBoxA.Image = ToBitmap(SplitOneChannel(image, channel));
+                    break;
+            }
+            RecombineChannels();
+        }
+
+            ///<summary>
+            ///Called to split image into channels, once for each channel.
+            ///</summary>
+            public Image SplitOneChannel(Image sourceImage, int channel)
         {
             Image isolatedChannel = new Image<SixLabors.ImageSharp.PixelFormats.Rgba32>(sourceImage.Width, sourceImage.Height);
 
@@ -256,6 +230,216 @@ namespace peaPacker
             pictureBoxOutput.Image = bitmapOutput;
         }
 
+        // =======================================================  Channel Manipulation =======================================================  
+
+        ///<summary>
+        ///Inverts the indicated channel, 0 = red, 1= green, 2 = blue, 3 = alpha
+        ///</summary>
+        private void InvertChannel(int channel)
+        {
+            switch (channel)
+            {
+                case 0:
+                    redChannel.Mutate(x => x.Invert());
+                    pictureBoxR.Image = ToBitmap(redChannel);
+                    break;
+                case 1:
+                    greenChannel.Mutate(x => x.Invert());
+                    pictureBoxG.Image = ToBitmap(greenChannel);
+                    break;
+                case 2:
+                    blueChannel.Mutate(x => x.Invert());
+                    pictureBoxB.Image = ToBitmap(blueChannel);
+                    break;
+                case 3:
+                    alphaChannel.Mutate(x => x.Invert());
+                    pictureBoxA.Image = ToBitmap(alphaChannel);
+                    break;
+            }
+            RecombineChannels();
+        }
+
+        private void FillChannel(int channel)
+        {
+            switch (channel)
+            {
+                case 0:
+                    redChannel.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
+                        for (int x = 0; x < row.Length; x++)
+                        {
+                            row[x] = new System.Numerics.Vector4(0, 0, 0, 1);
+                        }
+                    }));
+                    pictureBoxR.Image = ToBitmap(redChannel);
+                    break;
+                case 1:
+                    greenChannel.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
+                        for (int x = 0; x < row.Length; x++)
+                        {
+                            row[x] = new System.Numerics.Vector4(0, 0, 0, 1);
+                        }
+                    }));
+                    pictureBoxG.Image = ToBitmap(greenChannel);
+                    break;
+                case 2:
+                    blueChannel.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
+                        for (int x = 0; x < row.Length; x++)
+                        {
+                            row[x] = new System.Numerics.Vector4(0, 0, 0, 1);
+                        }
+                    }));
+                    pictureBoxB.Image = ToBitmap(blueChannel);
+                    break;
+                case 3:
+                    alphaChannel.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
+                        for (int x = 0; x < row.Length; x++)
+                        {
+                            row[x] = new System.Numerics.Vector4(0, 0, 0, 1);
+                        }
+                    }));
+                    pictureBoxA.Image = ToBitmap(alphaChannel);
+                    break;
+            }
+            RecombineChannels();
+        }
+
+        // =======================================================  Button Events =======================================================  
+
+        /// <summary>
+        /// Disables fill/invert buttons and save-as buttons. 
+        /// </summary>
+        private void DisableButtons()
+        {
+            pictureBoxA.Enabled = false;
+            fillButtonA.Enabled = false;
+            invertButtonA.Enabled = false;
+
+            pictureBoxR.Enabled = false;
+            fillButtonR.Enabled = false;
+            invertButtonR.Enabled = false;
+
+            pictureBoxG.Enabled = false;
+            fillButtonG.Enabled = false;
+            invertButtonG.Enabled = false;
+
+            pictureBoxB.Enabled = false;
+            fillButtonB.Enabled = false;
+            invertButtonB.Enabled = false;
+
+            pictureBoxOutput.Enabled = false;
+            saveAsButton.Enabled = false;
+        }
+
+        /// <summary>
+        /// Enables invert buttons and save-as buttons. 
+        /// </summary>
+        private void EnableButtons()
+        {
+            pictureBoxA.Enabled = true;
+            fillButtonA.Enabled = true;
+            invertButtonA.Enabled = true;
+
+            pictureBoxR.Enabled = true;
+            fillButtonR.Enabled = true;
+            invertButtonR.Enabled = true;
+
+            pictureBoxG.Enabled = true;
+            fillButtonG.Enabled = true;
+            invertButtonG.Enabled = true;
+
+            pictureBoxB.Enabled = true;
+            fillButtonB.Enabled = true;
+            invertButtonB.Enabled = true;
+
+            pictureBoxOutput.Enabled = true;
+            saveAsButton.Enabled = true;
+        }
+        private void openFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
+        private void openImage_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                SetRGBAImage(LoadRGBAImage(openFileDialog1.FileName));
+            }
+
+        }
+
+        /// <summary>
+        /// Event for drag/dropping over Open Image button or channel boxes
+        /// </summary>
+        private void openImage_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Copy;
+        }
+        /// <summary>
+        /// Event for dropping image into Open Image button
+        /// </summary>
+        private void openImage_DragDrop(object sender, DragEventArgs e)
+        {
+            var data = e.Data.GetData(DataFormats.FileDrop);
+            if (data != null)
+            {
+                var fileNames = data as string[];
+                if (fileNames.Length > 0)
+                {
+                    SetRGBAImage(LoadRGBAImage(fileNames[0]));
+                }
+            }
+        }
+
+        public void pictureBoxR_DragDrop(object sender, DragEventArgs e)
+        {
+            var data = e.Data.GetData(DataFormats.FileDrop);
+            if (data != null)
+            {
+                var fileNames = data as string[];
+                if (fileNames.Length > 0)
+                {
+                    SetIndividualChannel(SplitOneChannel(LoadRGBAImage(fileNames[0]), 0), 0);
+                }
+            }
+        }
+        public void pictureBoxG_DragDrop(object sender, DragEventArgs e)
+        {
+            var data = e.Data.GetData(DataFormats.FileDrop);
+            if (data != null)
+            {
+                var fileNames = data as string[];
+                if (fileNames.Length > 0)
+                {
+                    SetIndividualChannel(SplitOneChannel(LoadRGBAImage(fileNames[0]), 1), 1);
+                }
+            }
+        }
+
+        public void pictureBoxB_DragDrop(object sender, DragEventArgs e)
+        {
+            var data = e.Data.GetData(DataFormats.FileDrop);
+            if (data != null)
+            {
+                var fileNames = data as string[];
+                if (fileNames.Length > 0)
+                {
+                    SetIndividualChannel(SplitOneChannel(LoadRGBAImage(fileNames[0]), 2), 2);
+                }
+            }
+        }
+        public void pictureBoxA_DragDrop(object sender, DragEventArgs e)
+        {
+            var data = e.Data.GetData(DataFormats.FileDrop);
+            if (data != null)
+            {
+                var fileNames = data as string[];
+                if (fileNames.Length > 0)
+                {
+                    SetIndividualChannel(SplitOneChannel(LoadRGBAImage(fileNames[0]), 3), 3);
+                }
+            }
+        }
         private void splitContainerG_SplitterMoved(object sender, SplitterEventArgs e)
         {
 
@@ -350,78 +534,7 @@ namespace peaPacker
             }
         }
 
-        ///<summary>
-        ///Inverts the indicated channel, 0 = red, 1= green, 2 = blue, 3 = alpha
-        ///</summary>
-        private void InvertChannel(int channel)
-        {
-            switch (channel)
-            {
-                case 0:
-                    redChannel.Mutate(x => x.Invert());
-                    pictureBoxR.Image = ToBitmap(redChannel);
-                    break;
-                case 1:
-                    greenChannel.Mutate(x => x.Invert());
-                    pictureBoxG.Image = ToBitmap(greenChannel);
-                    break;
-                case 2:
-                    blueChannel.Mutate(x => x.Invert());
-                    pictureBoxB.Image = ToBitmap(blueChannel);
-                    break;
-                case 3:
-                    alphaChannel.Mutate(x => x.Invert());
-                    pictureBoxA.Image = ToBitmap(alphaChannel);
-                    break;
-            }
-            RecombineChannels();
-        }
-
-        private void FillChannel(int channel)
-        {
-            switch (channel)
-            {
-                case 0:
-                    redChannel.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
-                        for (int x = 0; x < row.Length; x++)
-                        {
-                            row[x] = new System.Numerics.Vector4(0, 0, 0, 1);
-                        }
-                    }));
-                    pictureBoxR.Image = ToBitmap(redChannel);
-                    break;
-                case 1:
-                    greenChannel.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
-                        for (int x = 0; x < row.Length; x++)
-                        {
-                            row[x] = new System.Numerics.Vector4(0, 0, 0, 1);
-                        }
-                    }));
-                    pictureBoxG.Image = ToBitmap(greenChannel);
-                    break;
-                case 2:
-                    blueChannel.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
-                        for (int x = 0; x < row.Length; x++)
-                        {
-                            row[x] = new System.Numerics.Vector4(0, 0, 0, 1);
-                        }
-                    }));
-                    pictureBoxB.Image = ToBitmap(blueChannel);
-                    break;
-                case 3:
-                    alphaChannel.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
-                        for (int x = 0; x < row.Length; x++)
-                        {
-                            row[x] = new System.Numerics.Vector4(0, 0, 0, 1);
-                        }
-                    }));
-                    pictureBoxA.Image = ToBitmap(alphaChannel);
-                    break;
-            }
-            RecombineChannels();
-        }
-
-
+        // ===================================================  Image Type Conversion Helpers ===================================================  
         ///<summary>
         ///Helper function to convert bitmaps to ImageSharp images.
         ///</summary>
@@ -448,7 +561,5 @@ namespace peaPacker
                 return new Bitmap(memoryStream);
             }
         }
-
     }
-
 }
