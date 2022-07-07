@@ -43,6 +43,7 @@ namespace peaPacker
         public Image LoadRGBAImage(string fileName)
         {
             Image newImage = Image.Load(fileName);
+            pathLabel.Text = $"Loaded image: {fileName}";
             return newImage;
         }
 
