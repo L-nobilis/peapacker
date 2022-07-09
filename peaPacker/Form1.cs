@@ -25,7 +25,6 @@ namespace peaPacker
             InitializeComponent();
             Start();
         }
-
         private void Start()
         {
             DisableButtons();
