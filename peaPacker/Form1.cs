@@ -69,24 +69,26 @@ namespace peaPacker
         /// </summary>
         public void DisplaySplitChannels()
         {
-            MagickImageCollection channels = new MagickImageCollection();
-            channels.AddRange(currentImage.Separate(Channels.RGB));
-            channels.AddRange(currentImage.Separate(Channels.Alpha));
+            using (MagickImageCollection channels = new MagickImageCollection())
+            {
+                channels.AddRange(currentImage.Separate(Channels.RGB));
+                channels.AddRange(currentImage.Separate(Channels.Alpha));
 
-            Debug.WriteLine($"Channels detected: {channels.Count}");
+                Debug.WriteLine($"Channels detected: {channels.Count}");
 
-            //Display each channel:
-            pictureBoxOutput.Image?.Dispose();
-            pictureBoxOutput.Image = currentImage.ToBitmap();
+                //Display each channel:
+                pictureBoxOutput.Image?.Dispose();
+                pictureBoxOutput.Image = currentImage.ToBitmap();
 
-            pictureBoxR.Image?.Dispose();
-            pictureBoxR.Image = channels[0].ToBitmap();
-            pictureBoxG.Image?.Dispose();
-            pictureBoxG.Image = channels[1].ToBitmap();
-            pictureBoxB.Image?.Dispose();
-            pictureBoxB.Image = channels[2].ToBitmap();
-            pictureBoxA.Image?.Dispose();
-            pictureBoxA.Image = channels[3].ToBitmap();
+                pictureBoxR.Image?.Dispose();
+                pictureBoxR.Image = channels[0].ToBitmap();
+                pictureBoxG.Image?.Dispose();
+                pictureBoxG.Image = channels[1].ToBitmap();
+                pictureBoxB.Image?.Dispose();
+                pictureBoxB.Image = channels[2].ToBitmap();
+                pictureBoxA.Image?.Dispose();
+                pictureBoxA.Image = channels[3].ToBitmap();
+            }
         }
 
         ///<summary>
@@ -141,17 +143,18 @@ namespace peaPacker
         ///</summary>
         private void InvertChannel(int channel)
         {
-            MagickImageCollection currentChannels = new MagickImageCollection();
-            currentChannels.AddRange(currentImage.Separate(Channels.RGB));
-            currentChannels.AddRange(currentImage.Separate(Channels.Alpha));
+            using (MagickImageCollection currentChannels = new MagickImageCollection())
+            {
+                currentChannels.AddRange(currentImage.Separate(Channels.RGB));
+                currentChannels.AddRange(currentImage.Separate(Channels.Alpha));
 
-            MagickImage thisChannel = (MagickImage)currentChannels[channel];
-            //invert this channel
-            thisChannel.Negate();
-
-            //recombine
-            currentChannels[channel] = thisChannel;
-            currentImage = (MagickImage)currentChannels.Combine();
+                using (MagickImage thisChannel = (MagickImage)currentChannels[channel])
+                {
+                    thisChannel.Negate();
+                    currentChannels[channel] = thisChannel;
+                    currentImage = (MagickImage)currentChannels.Combine();
+                }
+            }
             DisplaySplitChannels();
         }
 
