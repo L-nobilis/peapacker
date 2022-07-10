@@ -5,13 +5,8 @@ namespace peaPacker
 
     public partial class Form1 : Form
     {
-        // Tracks if a user has opened an image yet or not.
         private bool imageOpened = false;
-
         public MagickImage currentImage;
-
-        public int currentWidth;
-        public int currentHeight;
 
         public Form1()
         {
@@ -74,8 +69,6 @@ namespace peaPacker
                 channels.AddRange(currentImage.Separate(Channels.RGB));
                 channels.AddRange(currentImage.Separate(Channels.Alpha));
 
-                Debug.WriteLine($"Channels detected: {channels.Count}");
-
                 //Display each channel:
                 pictureBoxOutput.Image?.Dispose();
                 pictureBoxOutput.Image = currentImage.ToBitmap();
@@ -98,14 +91,16 @@ namespace peaPacker
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                var channelImage = new MagickImage(openFileDialog1.FileName);
-                if (imageOpened && (channelImage.Width != currentImage.Width || channelImage.Height != currentImage.Height))
+                using (var channelImage = new MagickImage(openFileDialog1.FileName))
                 {
-                    MessageBox.Show($"Channel size must match original image size: {currentImage.Width} x {currentImage.Height}");
-                }
-                else
-                {
-                    SetIndividualChannel(channelImage, channel);
+                    if (imageOpened && (channelImage.Width != currentImage.Width || channelImage.Height != currentImage.Height))
+                    {
+                        MessageBox.Show($"Channel size must match original image size: {currentImage.Width} x {currentImage.Height}");
+                    }
+                    else
+                    {
+                        SetIndividualChannel(channelImage, channel);
+                    }
                 }
             }
         }
