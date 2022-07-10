@@ -1,24 +1,12 @@
 namespace peaPacker
 {
-    using SixLabors.ImageSharp;
-    using SixLabors.ImageSharp.Processing;
-    using SixLabors.ImageSharp.Advanced;
-    using SixLabors.ImageSharp.Formats.Png;
-    using SixLabors.ImageSharp.PixelFormats;
+    using ImageMagick;
     using System.Diagnostics;
 
     public partial class Form1 : Form
     {
-        // Tracks if a user has opened an image yet or not.
         private bool imageOpened = false;
-
-        public int currentWidth;
-        public int currentHeight;
-
-        public Image redChannel;
-        public Image blueChannel;
-        public Image greenChannel;
-        public Image alphaChannel;
+        public MagickImage currentImage;
 
         public Form1()
         {
@@ -27,6 +15,7 @@ namespace peaPacker
         }
         private void Start()
         {
+            MagickNET.Initialize();
             DisableButtons();
             openImage.AllowDrop = true;
             SetAllTooltips();
@@ -34,47 +23,34 @@ namespace peaPacker
         // ====================================================  Load and Recombine Channel(s) ====================================================  
 
         /// <summary>
-        /// The main function used when loading in a whole image.  
+        /// Opens an image from the disk and returns a MagickImage. Also updates the pathLabel text.
         /// </summary>
         /// <param name="fileName"></param>
-        public Image LoadRGBAImage(string fileName)
+        public MagickImage LoadRGBAImage(string fileName)
         {
-            Image newImage = Image.Load(fileName);
+            var newImage = new MagickImage(fileName);
             pathLabel.Text = $"Loaded image: \n{fileName}";
             return newImage;
         }
 
         /// <summary>
-        /// Sets the passed in image to be our current working image and splits its channels. 
+        /// Sets the passed in image to be our current working image and displays the split channels.
         /// </summary>
         /// <param name="image"></param>
-        public void SetRGBAImage(Image image)
+        public void SetRGBAImage(MagickImage loadedImage)
         {
-            currentWidth = image.Width;
-            currentHeight = image.Height;
-
-            //Grab references to all four picture boxes used to display our channels
-            PictureBox[] channelBoxes = new PictureBox[4];
-            channelBoxes[0] = pictureBoxR;
-            channelBoxes[1] = pictureBoxG;
-            channelBoxes[2] = pictureBoxB;
-            channelBoxes[3] = pictureBoxA;
-
-            int i = 0;
-            foreach (PictureBox box in channelBoxes)
+            if (!loadedImage.HasAlpha)
             {
-                var stream = new System.IO.MemoryStream();
-                SplitOneChannel(image, i).SaveAsBmp(stream);
-                System.Drawing.Image channelImg = System.Drawing.Image.FromStream(stream);
-
-                box.Image?.Dispose();
-                box.Image = channelImg;
-
-                i++;
+                loadedImage.Alpha(AlphaOption.On);
             }
+            currentImage = loadedImage;
 
-            RecombineChannels();
-            outputSizeLabel.Text = $"Output size: {currentWidth} x {currentHeight}";
+            //Since we just loaded in an image and haven't modified it yet, our output is identical to what we loaded.
+            outputSizeLabel.Text = $"Output size: {loadedImage.Width} x {loadedImage.Height}";
+
+            //Split our channels into seperate images, so the user can see them:
+            DisplaySplitChannels();
+
             EnableButtons();
             imageOpened = true;
             pictureBoxA.AllowDrop = true;
@@ -83,21 +59,48 @@ namespace peaPacker
             pictureBoxB.AllowDrop = true;
         }
 
+        /// <summary>
+        /// Grabs the current working image and displays its seperated RGBA channels. 
+        /// </summary>
+        public void DisplaySplitChannels()
+        {
+            using (MagickImageCollection channels = new MagickImageCollection())
+            {
+                channels.AddRange(currentImage.Separate(Channels.RGB));
+                channels.AddRange(currentImage.Separate(Channels.Alpha));
+
+                //Display each channel:
+                pictureBoxOutput.Image?.Dispose();
+                pictureBoxOutput.Image = currentImage.ToBitmap();
+
+                pictureBoxR.Image?.Dispose();
+                pictureBoxR.Image = channels[0].ToBitmap();
+                pictureBoxG.Image?.Dispose();
+                pictureBoxG.Image = channels[1].ToBitmap();
+                pictureBoxB.Image?.Dispose();
+                pictureBoxB.Image = channels[2].ToBitmap();
+                pictureBoxA.Image?.Dispose();
+                pictureBoxA.Image = channels[3].ToBitmap();
+            }
+        }
+
         ///<summary>
-        ///Called when individual channel boxes are clicked or dragged into.
+        ///Called when individual channel boxes are clicked or dragged into. Calls SetIndividualChannel
         ///</summary>
         public void LoadIndividualChannel(int channel)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                Image newImage = Image.Load(openFileDialog1.FileName);
-                if (imageOpened && (newImage.Width != currentWidth || newImage.Height != currentHeight))
+                using (var channelImage = new MagickImage(openFileDialog1.FileName))
                 {
-                    MessageBox.Show($"Channel size must match original image size: {currentWidth} x {currentHeight}");
-                }
-                else
-                {
-                    SetIndividualChannel(newImage, channel);
+                    if (imageOpened && (channelImage.Width != currentImage.Width || channelImage.Height != currentImage.Height))
+                    {
+                        MessageBox.Show($"Channel size must match original image size: {currentImage.Width} x {currentImage.Height}");
+                    }
+                    else
+                    {
+                        SetIndividualChannel(channelImage, channel);
+                    }
                 }
             }
         }
@@ -107,125 +110,25 @@ namespace peaPacker
         /// </summary>
         /// <param name="image"></param>
         /// <param name="channel">0: R, 1: G, 2: B, 3: A</param>
-        public void SetIndividualChannel(Image image, int channel)
+        public void SetIndividualChannel(MagickImage image, int channel)
         {
-            switch (channel)
-            {
-                case 0:
-                    pictureBoxR.Image = ToBitmap(SplitOneChannel(image, channel));
-                    break;
-                case 1:
-                    pictureBoxG.Image = ToBitmap(SplitOneChannel(image, channel));
-                    break;
-                case 2:
-                    pictureBoxB.Image = ToBitmap(SplitOneChannel(image, channel));
-                    break;
-                case 3:
-                    pictureBoxA.Image = ToBitmap(SplitOneChannel(image, channel));
-                    break;
-            }
-            RecombineChannels();
-        }
 
-            ///<summary>
-            ///Called to split image into channels, once for each channel.
-            ///</summary>
-            public Image SplitOneChannel(Image sourceImage, int channel)
-        {
-            Image isolatedChannel = new Image<SixLabors.ImageSharp.PixelFormats.Rgba32>(sourceImage.Width, sourceImage.Height);
+            //Puts all our current channels in a collection so we can modify them
+            MagickImageCollection currentChannels = new MagickImageCollection();
+            currentChannels.AddRange(currentImage.Separate(Channels.RGB));
+            currentChannels.AddRange(currentImage.Separate(Channels.Alpha));
 
-            switch (channel)
-            {
-                case 0:
-                    isolatedChannel = sourceImage.Clone(r => r.ProcessPixelRowsAsVector4(row => {
-                        for (int x = 0; x < row.Length; x++)
-                        {
-                            row[x] = new System.Numerics.Vector4(row[x].X, row[x].X, row[x].X, 1);
-                        }
-                    }));
-                    redChannel = isolatedChannel;
-                    break;
-                case 1:
-                    isolatedChannel = sourceImage.Clone(g => g.ProcessPixelRowsAsVector4(row => {
-                        for (int x = 0; x < row.Length; x++)
-                        {
-                            row[x] = new System.Numerics.Vector4(row[x].Y, row[x].Y, row[x].Y, 1);
-                        }
-                    }));
-                    greenChannel = isolatedChannel;
-                    break;
-                case 2:
-                    isolatedChannel = sourceImage.Clone(b => b.ProcessPixelRowsAsVector4(row => {
-                        for (int x = 0; x < row.Length; x++)
-                        {
-                            row[x] = new System.Numerics.Vector4(row[x].Z, row[x].Z, row[x].Z, 1);
-                        }
-                    }));
-                    blueChannel = isolatedChannel;
-                    break;
-                case 3:
-                    isolatedChannel = sourceImage.Clone(a => a.ProcessPixelRowsAsVector4(row => {
-                        for (int x = 0; x < row.Length; x++)
-                        {
-                            row[x] = new System.Numerics.Vector4(row[x].W, row[x].W, row[x].W, 1);
-                        }
-                    }));
-                    alphaChannel = isolatedChannel;
-                    break;
-            }
-            return isolatedChannel;
-        }
+            //Does the same for our passed in image.
+            MagickImageCollection newChannels = new MagickImageCollection();
+            newChannels.AddRange(image.Separate(Channels.RGB));
+            newChannels.AddRange(image.Separate(Channels.Alpha));
 
-        ///<summary>
-        ///Recombines channels and updates output preview.  Currently very sloooooow.
-        ///</summary>
-        public void RecombineChannels()
-        {
-            Image<Rgba32> recombinedImage = new Image<SixLabors.ImageSharp.PixelFormats.Rgba32>(currentWidth, currentHeight);
+            //Replace our working image's channel with the one passed in
+            currentChannels[channel] = newChannels[channel];
 
-            Bitmap bitmapOutput = new Bitmap(currentWidth, currentHeight);
-            Bitmap bitmapRed = ToBitmap(redChannel);
-            Bitmap bitmapGreen = ToBitmap(greenChannel);
-            Bitmap bitmapBlue = ToBitmap(blueChannel);
-            Bitmap bitmapAlpha = ToBitmap(alphaChannel);
-
-            //i is always 0 here.  How can we access the index of a row?
-            //redChannel.Clone(x => x.ProcessPixelRowsAsVector4(row => {
-            //    int i = 0;
-            //    Debug.WriteLine($"Processing row {i}");
-            //    for (int x = 0; x < row.Length; x++)
-            //    {
-            //        redValues[i + x] = row[x].X;
-            //    }
-            //    i++;
-            //}));
-
-
-            // Recombining the output the lazy way, because I haven't yet determined how to get a row's index in the above code
-            // This solution is really slow and will be improved in future builds
-            for (int i = 0; i < currentWidth; i++)
-            {
-                for (int j = 0; j < currentHeight; j++)
-                {
-                    bitmapOutput.SetPixel(i, j, System.Drawing.Color.FromArgb(bitmapAlpha.GetPixel(i,j).R, bitmapRed.GetPixel(i, j).R, bitmapGreen.GetPixel(i, j).R, bitmapBlue.GetPixel(i, j).R));
-                }
-            } 
-
-            //recombinedImage = recombinedImage.Clone(r => r.ProcessPixelRowsAsVector4(row => {
-            //    int i = 0;
-            //    for (int x = 0; x < row.Length; x++)
-            //    {
-            //        row[x] = new System.Numerics.Vector4(redValues[i + x], 0, 0, 0);
-            //    }
-            //    i++;
-            //}));
-
-            //var stream = new System.IO.MemoryStream();
-            //recombinedImage.SaveAsBmp(stream);
-            //System.Drawing.Image outputImg = System.Drawing.Image.FromStream(stream);
-
-            pictureBoxOutput.Image?.Dispose();
-            pictureBoxOutput.Image = bitmapOutput;
+            //Set our working image to be a recombination of the channels
+            currentImage = (MagickImage)currentChannels.Combine();
+            DisplaySplitChannels();
         }
 
         // =======================================================  Channel Manipulation =======================================================  
@@ -235,73 +138,38 @@ namespace peaPacker
         ///</summary>
         private void InvertChannel(int channel)
         {
-            switch (channel)
+            using (MagickImageCollection currentChannels = new MagickImageCollection())
             {
-                case 0:
-                    redChannel.Mutate(x => x.Invert());
-                    pictureBoxR.Image = ToBitmap(redChannel);
-                    break;
-                case 1:
-                    greenChannel.Mutate(x => x.Invert());
-                    pictureBoxG.Image = ToBitmap(greenChannel);
-                    break;
-                case 2:
-                    blueChannel.Mutate(x => x.Invert());
-                    pictureBoxB.Image = ToBitmap(blueChannel);
-                    break;
-                case 3:
-                    alphaChannel.Mutate(x => x.Invert());
-                    pictureBoxA.Image = ToBitmap(alphaChannel);
-                    break;
+                currentChannels.AddRange(currentImage.Separate(Channels.RGB));
+                currentChannels.AddRange(currentImage.Separate(Channels.Alpha));
+
+                using (MagickImage thisChannel = (MagickImage)currentChannels[channel])
+                {
+                    thisChannel.Negate();
+                    currentChannels[channel] = thisChannel;
+                    currentImage = (MagickImage)currentChannels.Combine();
+                }
             }
-            RecombineChannels();
+            DisplaySplitChannels();
         }
 
+        ///<summary>
+        ///Fills the indicated channel with solid white. 0 = red, 1= green, 2 = blue, 3 = alpha
+        ///</summary>
         private void FillChannel(int channel)
         {
-            switch (channel)
-            {
-                case 0:
-                    redChannel.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
-                        for (int x = 0; x < row.Length; x++)
-                        {
-                            row[x] = new System.Numerics.Vector4(0, 0, 0, 1);
-                        }
-                    }));
-                    pictureBoxR.Image = ToBitmap(redChannel);
-                    break;
-                case 1:
-                    greenChannel.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
-                        for (int x = 0; x < row.Length; x++)
-                        {
-                            row[x] = new System.Numerics.Vector4(0, 0, 0, 1);
-                        }
-                    }));
-                    pictureBoxG.Image = ToBitmap(greenChannel);
-                    break;
-                case 2:
-                    blueChannel.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
-                        for (int x = 0; x < row.Length; x++)
-                        {
-                            row[x] = new System.Numerics.Vector4(0, 0, 0, 1);
-                        }
-                    }));
-                    pictureBoxB.Image = ToBitmap(blueChannel);
-                    break;
-                case 3:
-                    alphaChannel.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
-                        for (int x = 0; x < row.Length; x++)
-                        {
-                            row[x] = new System.Numerics.Vector4(0, 0, 0, 1);
-                        }
-                    }));
-                    pictureBoxA.Image = ToBitmap(alphaChannel);
-                    break;
-            }
-            RecombineChannels();
+            MagickImageCollection currentChannels = new MagickImageCollection();
+            currentChannels.AddRange(currentImage.Separate(Channels.RGB));
+            currentChannels.AddRange(currentImage.Separate(Channels.Alpha));
+
+            MagickImage thisChannel = new MagickImage(new MagickColor("#FFFFFF"), currentImage.Width, currentImage.Height);
+
+            currentChannels[channel] = thisChannel;
+            currentImage = (MagickImage)currentChannels.Combine();
+            DisplaySplitChannels();
         }
 
-        // =======================================================  Button Events =======================================================  
+        // =======================================================  Button and Drag/Drop Events =======================================================  
 
         /// <summary>
         /// Disables fill/invert buttons and save-as buttons. 
@@ -397,7 +265,7 @@ namespace peaPacker
                 var fileNames = data as string[];
                 if (fileNames.Length > 0)
                 {
-                    SetIndividualChannel(SplitOneChannel(LoadRGBAImage(fileNames[0]), 0), 0);
+                    SetIndividualChannel(LoadRGBAImage(fileNames[0]), 0);
                 }
             }
         }
@@ -409,7 +277,7 @@ namespace peaPacker
                 var fileNames = data as string[];
                 if (fileNames.Length > 0)
                 {
-                    SetIndividualChannel(SplitOneChannel(LoadRGBAImage(fileNames[0]), 1), 1);
+                    SetIndividualChannel(LoadRGBAImage(fileNames[0]), 1);
                 }
             }
         }
@@ -422,7 +290,7 @@ namespace peaPacker
                 var fileNames = data as string[];
                 if (fileNames.Length > 0)
                 {
-                    SetIndividualChannel(SplitOneChannel(LoadRGBAImage(fileNames[0]), 2), 2);
+                    SetIndividualChannel(LoadRGBAImage(fileNames[0]), 2);
                 }
             }
         }
@@ -434,7 +302,7 @@ namespace peaPacker
                 var fileNames = data as string[];
                 if (fileNames.Length > 0)
                 {
-                    SetIndividualChannel(SplitOneChannel(LoadRGBAImage(fileNames[0]), 3), 3);
+                    SetIndividualChannel(LoadRGBAImage(fileNames[0]), 3);
                 }
             }
         }
@@ -570,29 +438,26 @@ namespace peaPacker
         ///<summary>
         ///Helper function to convert bitmaps to ImageSharp images.
         ///</summary>
-        public static Image ToImageSharpImage(Bitmap bitmap)
-        {
-            using (var memoryStream = new MemoryStream())
-            {
-                bitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
-                memoryStream.Seek(0, SeekOrigin.Begin);
-                return Image.Load(memoryStream);
-            }
-        }
+        //public static Image ToImageSharpImage(Bitmap bitmap)
+        //{
+        //    using (var memoryStream = new MemoryStream())
+        //    {
+        //        bitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
+        //        memoryStream.Seek(0, SeekOrigin.Begin);
+        //        return Image.Load(memoryStream);
+        //    }
+        //}
 
-        ///<summary>
-        ///Helper function to convert ImageSharp images to bitmaps.
-        ///</summary>
-        public static Bitmap ToBitmap(Image image)
-        {
-            using (var memoryStream = new MemoryStream())
-            {
-                var imageEncoder = image.GetConfiguration().ImageFormatsManager.FindEncoder(PngFormat.Instance);
-                image.Save(memoryStream, imageEncoder);
-                memoryStream.Seek(0, SeekOrigin.Begin);
-                return new Bitmap(memoryStream);
-            }
-        }
+        //public static Bitmap ToBitmap(Image image)
+        //{
+        //    using (var memoryStream = new MemoryStream())
+        //    {
+        //        var imageEncoder = image.GetConfiguration().ImageFormatsManager.FindEncoder(PngFormat.Instance);
+        //        image.Save(memoryStream, imageEncoder);
+        //        memoryStream.Seek(0, SeekOrigin.Begin);
+        //        return new Bitmap(memoryStream);
+        //    }
+        //}
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
