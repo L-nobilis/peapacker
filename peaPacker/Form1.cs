@@ -135,26 +135,18 @@ namespace peaPacker
         ///</summary>
         private void InvertChannel(int channel)
         {
-            //switch (channel)
-            //{
-            //    case 0:
-            //        redChannel.Mutate(x => x.Invert());
-            //        pictureBoxR.Image = ToBitmap(redChannel);
-            //        break;
-            //    case 1:
-            //        greenChannel.Mutate(x => x.Invert());
-            //        pictureBoxG.Image = ToBitmap(greenChannel);
-            //        break;
-            //    case 2:
-            //        blueChannel.Mutate(x => x.Invert());
-            //        pictureBoxB.Image = ToBitmap(blueChannel);
-            //        break;
-            //    case 3:
-            //        alphaChannel.Mutate(x => x.Invert());
-            //        pictureBoxA.Image = ToBitmap(alphaChannel);
-            //        break;
-            //}
-            //RecombineChannels();
+            MagickImageCollection currentChannels = new MagickImageCollection();
+            currentChannels.AddRange(currentImage.Separate(Channels.RGB));
+            currentChannels.AddRange(currentImage.Separate(Channels.Alpha));
+
+            MagickImage thisChannel = (MagickImage)currentChannels[channel];
+            //invert this channel
+            thisChannel.Negate();
+
+            //recombine
+            currentChannels[channel] = thisChannel;
+            currentImage = (MagickImage)currentChannels.Combine();
+            DisplaySplitChannels();
         }
 
         private void FillChannel(int channel)
