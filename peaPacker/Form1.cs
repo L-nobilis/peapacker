@@ -279,7 +279,7 @@ namespace peaPacker
                 var fileNames = data as string[];
                 if (fileNames.Length > 0)
                 {
-                    //SetIndividualChannel(SplitOneChannel(LoadRGBAImage(fileNames[0]), 1), 1);
+                    SetIndividualChannel(LoadRGBAImage(fileNames[0]), 1);
                 }
             }
         }
@@ -292,7 +292,7 @@ namespace peaPacker
                 var fileNames = data as string[];
                 if (fileNames.Length > 0)
                 {
-                    //SetIndividualChannel(SplitOneChannel(LoadRGBAImage(fileNames[0]), 2), 2);
+                    SetIndividualChannel(LoadRGBAImage(fileNames[0]), 2);
                 }
             }
         }
@@ -304,7 +304,7 @@ namespace peaPacker
                 var fileNames = data as string[];
                 if (fileNames.Length > 0)
                 {
-                    //SetIndividualChannel(SplitOneChannel(LoadRGBAImage(fileNames[0]), 3), 3);
+                    SetIndividualChannel(LoadRGBAImage(fileNames[0]), 3);
                 }
             }
         }
