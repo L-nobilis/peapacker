@@ -44,6 +44,10 @@ namespace peaPacker
         /// <param name="image"></param>
         public void SetRGBAImage(MagickImage loadedImage)
         {
+            if (!loadedImage.HasAlpha)
+            {
+                loadedImage.Alpha(AlphaOption.On);
+            }
             currentImage = loadedImage;
 
             //Since we just loaded in an image and haven't modified it yet, our output is identical to what we loaded.
@@ -68,6 +72,8 @@ namespace peaPacker
             MagickImageCollection channels = new MagickImageCollection();
             channels.AddRange(currentImage.Separate(Channels.RGB));
             channels.AddRange(currentImage.Separate(Channels.Alpha));
+
+            Debug.WriteLine($"Channels detected: {channels.Count}");
 
             //Display each channel:
             pictureBoxOutput.Image?.Dispose();
@@ -261,7 +267,7 @@ namespace peaPacker
                 var fileNames = data as string[];
                 if (fileNames.Length > 0)
                 {
-                    //SetIndividualChannel(SplitOneChannel(LoadRGBAImage(fileNames[0]), 0), 0);
+                    SetIndividualChannel(LoadRGBAImage(fileNames[0]), 0);
                 }
             }
         }
