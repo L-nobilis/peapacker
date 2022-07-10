@@ -149,51 +149,23 @@ namespace peaPacker
             DisplaySplitChannels();
         }
 
+        ///<summary>
+        ///Fills the indicated channel with solid white. 0 = red, 1= green, 2 = blue, 3 = alpha
+        ///</summary>
         private void FillChannel(int channel)
         {
-            //switch (channel)
-            //{
-            //    case 0:
-            //        redChannel.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
-            //            for (int x = 0; x < row.Length; x++)
-            //            {
-            //                row[x] = new System.Numerics.Vector4(0, 0, 0, 1);
-            //            }
-            //        }));
-            //        pictureBoxR.Image = ToBitmap(redChannel);
-            //        break;
-            //    case 1:
-            //        greenChannel.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
-            //            for (int x = 0; x < row.Length; x++)
-            //            {
-            //                row[x] = new System.Numerics.Vector4(0, 0, 0, 1);
-            //            }
-            //        }));
-            //        pictureBoxG.Image = ToBitmap(greenChannel);
-            //        break;
-            //    case 2:
-            //        blueChannel.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
-            //            for (int x = 0; x < row.Length; x++)
-            //            {
-            //                row[x] = new System.Numerics.Vector4(0, 0, 0, 1);
-            //            }
-            //        }));
-            //        pictureBoxB.Image = ToBitmap(blueChannel);
-            //        break;
-            //    case 3:
-            //        alphaChannel.Mutate(r => r.ProcessPixelRowsAsVector4(row => {
-            //            for (int x = 0; x < row.Length; x++)
-            //            {
-            //                row[x] = new System.Numerics.Vector4(0, 0, 0, 1);
-            //            }
-            //        }));
-            //        pictureBoxA.Image = ToBitmap(alphaChannel);
-            //        break;
-            //}
-            //RecombineChannels();
+            MagickImageCollection currentChannels = new MagickImageCollection();
+            currentChannels.AddRange(currentImage.Separate(Channels.RGB));
+            currentChannels.AddRange(currentImage.Separate(Channels.Alpha));
+
+            MagickImage thisChannel = new MagickImage(new MagickColor("#FFFFFF"), currentImage.Width, currentImage.Height);
+
+            currentChannels[channel] = thisChannel;
+            currentImage = (MagickImage)currentChannels.Combine();
+            DisplaySplitChannels();
         }
 
-        // =======================================================  Button Events =======================================================  
+        // =======================================================  Button and Drag/Drop Events =======================================================  
 
         /// <summary>
         /// Disables fill/invert buttons and save-as buttons. 
