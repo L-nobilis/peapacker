@@ -269,6 +269,7 @@ namespace peaPacker
                 }
             }
         }
+
         public void pictureBoxG_DragDrop(object sender, DragEventArgs e)
         {
             var data = e.Data.GetData(DataFormats.FileDrop);
@@ -294,6 +295,7 @@ namespace peaPacker
                 }
             }
         }
+
         public void pictureBoxA_DragDrop(object sender, DragEventArgs e)
         {
             var data = e.Data.GetData(DataFormats.FileDrop);
@@ -306,6 +308,7 @@ namespace peaPacker
                 }
             }
         }
+
         private void pictureBoxR_Click(object sender, EventArgs e)
         {
             LoadIndividualChannel(0);
@@ -325,14 +328,17 @@ namespace peaPacker
         {
             LoadIndividualChannel(3);
         }
+
         private void pictureBoxOutput_Click(object sender, EventArgs e)
         {
             saveAsButton_Click(sender, e);
         }
+
         private void invertButtonR_Click(object sender, EventArgs e)
         {
             InvertChannel(0);
         }
+
         private void invertButtonG_Click(object sender, EventArgs e)
         {
             InvertChannel(1);
@@ -367,6 +373,7 @@ namespace peaPacker
         {
             FillChannel(3);
         }
+
         private void saveAsButton_Click(object sender, EventArgs e)
         {
             //Displays a Save File Dialog so the user can save the outputImage. 
@@ -434,7 +441,6 @@ namespace peaPacker
             }
 
         }
-
 
     }
 }

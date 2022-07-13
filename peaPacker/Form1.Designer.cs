@@ -184,7 +184,7 @@
             this.pictureBoxOutput.Location = new System.Drawing.Point(239, 343);
             this.pictureBoxOutput.Name = "pictureBoxOutput";
             this.pictureBoxOutput.Size = new System.Drawing.Size(230, 220);
-            this.pictureBoxOutput.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBoxOutput.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxOutput.TabIndex = 5;
             this.pictureBoxOutput.TabStop = false;
             this.pictureBoxOutput.Click += new System.EventHandler(this.pictureBoxOutput_Click);
@@ -205,6 +205,7 @@
             // splitContainerR1
             // 
             this.splitContainerR1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerR1.IsSplitterFixed = true;
             this.splitContainerR1.Location = new System.Drawing.Point(10, 77);
             this.splitContainerR1.Margin = new System.Windows.Forms.Padding(10);
             this.splitContainerR1.Name = "splitContainerR1";
@@ -228,7 +229,7 @@
             this.pictureBoxR.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxR.Name = "pictureBoxR";
             this.pictureBoxR.Size = new System.Drawing.Size(216, 204);
-            this.pictureBoxR.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBoxR.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxR.TabIndex = 0;
             this.pictureBoxR.TabStop = false;
             this.pictureBoxR.Click += new System.EventHandler(this.pictureBoxR_Click);
@@ -238,6 +239,7 @@
             // splitContainerR2
             // 
             this.splitContainerR2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerR2.IsSplitterFixed = true;
             this.splitContainerR2.Location = new System.Drawing.Point(0, 0);
             this.splitContainerR2.Name = "splitContainerR2";
             // 
@@ -287,6 +289,7 @@
             // splitContainerG1
             // 
             this.splitContainerG1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerG1.IsSplitterFixed = true;
             this.splitContainerG1.Location = new System.Drawing.Point(246, 77);
             this.splitContainerG1.Margin = new System.Windows.Forms.Padding(10);
             this.splitContainerG1.Name = "splitContainerG1";
@@ -310,7 +313,7 @@
             this.pictureBoxG.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxG.Name = "pictureBoxG";
             this.pictureBoxG.Size = new System.Drawing.Size(216, 205);
-            this.pictureBoxG.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBoxG.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxG.TabIndex = 0;
             this.pictureBoxG.TabStop = false;
             this.pictureBoxG.Click += new System.EventHandler(this.pictureBoxG_Click);
@@ -369,6 +372,7 @@
             // splitContainerB1
             // 
             this.splitContainerB1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerB1.IsSplitterFixed = true;
             this.splitContainerB1.Location = new System.Drawing.Point(482, 77);
             this.splitContainerB1.Margin = new System.Windows.Forms.Padding(10);
             this.splitContainerB1.Name = "splitContainerB1";
@@ -392,7 +396,7 @@
             this.pictureBoxB.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxB.Name = "pictureBoxB";
             this.pictureBoxB.Size = new System.Drawing.Size(216, 205);
-            this.pictureBoxB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBoxB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxB.TabIndex = 0;
             this.pictureBoxB.TabStop = false;
             this.pictureBoxB.Click += new System.EventHandler(this.pictureBoxB_Click);
@@ -402,6 +406,7 @@
             // splitContainerB2
             // 
             this.splitContainerB2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerB2.IsSplitterFixed = true;
             this.splitContainerB2.Location = new System.Drawing.Point(0, 0);
             this.splitContainerB2.Name = "splitContainerB2";
             // 
@@ -451,6 +456,7 @@
             // splitContainerA1
             // 
             this.splitContainerA1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerA1.IsSplitterFixed = true;
             this.splitContainerA1.Location = new System.Drawing.Point(718, 77);
             this.splitContainerA1.Margin = new System.Windows.Forms.Padding(10);
             this.splitContainerA1.Name = "splitContainerA1";
@@ -474,7 +480,7 @@
             this.pictureBoxA.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxA.Name = "pictureBoxA";
             this.pictureBoxA.Size = new System.Drawing.Size(219, 205);
-            this.pictureBoxA.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBoxA.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxA.TabIndex = 0;
             this.pictureBoxA.TabStop = false;
             this.pictureBoxA.Click += new System.EventHandler(this.pictureBoxA_Click);
@@ -484,6 +490,7 @@
             // splitContainerA2
             // 
             this.splitContainerA2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerA2.IsSplitterFixed = true;
             this.splitContainerA2.Location = new System.Drawing.Point(0, 0);
             this.splitContainerA2.Name = "splitContainerA2";
             // 
@@ -614,7 +621,6 @@
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOutput)).EndInit();
             this.splitContainerR1.Panel1.ResumeLayout(false);
-            this.splitContainerR1.Panel1.PerformLayout();
             this.splitContainerR1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerR1)).EndInit();
             this.splitContainerR1.ResumeLayout(false);
@@ -624,7 +630,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerR2)).EndInit();
             this.splitContainerR2.ResumeLayout(false);
             this.splitContainerG1.Panel1.ResumeLayout(false);
-            this.splitContainerG1.Panel1.PerformLayout();
             this.splitContainerG1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerG1)).EndInit();
             this.splitContainerG1.ResumeLayout(false);
@@ -634,7 +639,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerG2)).EndInit();
             this.splitContainerG2.ResumeLayout(false);
             this.splitContainerB1.Panel1.ResumeLayout(false);
-            this.splitContainerB1.Panel1.PerformLayout();
             this.splitContainerB1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerB1)).EndInit();
             this.splitContainerB1.ResumeLayout(false);
@@ -644,7 +648,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerB2)).EndInit();
             this.splitContainerB2.ResumeLayout(false);
             this.splitContainerA1.Panel1.ResumeLayout(false);
-            this.splitContainerA1.Panel1.PerformLayout();
             this.splitContainerA1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerA1)).EndInit();
             this.splitContainerA1.ResumeLayout(false);
