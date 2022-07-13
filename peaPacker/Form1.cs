@@ -407,7 +407,12 @@ namespace peaPacker
         {
             MessageBox.Show("PeaPacker version 1.0\nhttps://github.com/L-nobilis/peapacker", "About PeaPacker");
         }
-
+        private void helpButton_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("How to use:\n1. Open an image by clicking the Open button or by dragging an image onto the open button.\n" +
+                "2. Click each channel to replace it with a new image, or modify them with the controls below.\n" +
+                "3. Save your new packed image.", "PeaPacker Help");
+        }
         // =================================================== Setup Stuff ============================================================
 
         /// <summary>
@@ -441,6 +446,7 @@ namespace peaPacker
             }
 
         }
+
 
     }
 }

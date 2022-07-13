@@ -59,8 +59,10 @@
             this.gLabel = new System.Windows.Forms.Label();
             this.bLabel = new System.Windows.Forms.Label();
             this.aLabel = new System.Windows.Forms.Label();
-            this.aboutButton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.button1 = new System.Windows.Forms.Button();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.helpButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOutput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerR1)).BeginInit();
@@ -99,6 +101,7 @@
             this.splitContainerA2.Panel1.SuspendLayout();
             this.splitContainerA2.Panel2.SuspendLayout();
             this.splitContainerA2.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -121,7 +124,7 @@
             this.tableLayoutPanel1.Controls.Add(this.gLabel, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.bLabel, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.aLabel, 3, 1);
-            this.tableLayoutPanel1.Controls.Add(this.aboutButton, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 3);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -589,23 +592,45 @@
             this.aLabel.Text = "Alpha Channel";
             this.aLabel.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // aboutButton
-            // 
-            this.aboutButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.aboutButton.Font = new System.Drawing.Font("Nirmala UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.aboutButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.aboutButton.Location = new System.Drawing.Point(3, 343);
-            this.aboutButton.Name = "aboutButton";
-            this.aboutButton.Size = new System.Drawing.Size(82, 39);
-            this.aboutButton.TabIndex = 13;
-            this.aboutButton.Text = "About";
-            this.aboutButton.UseVisualStyleBackColor = true;
-            this.aboutButton.Click += new System.EventHandler(this.aboutButton_Click);
-            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
+            // 
+            // button1
+            // 
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Nirmala UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.button1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.button1.Location = new System.Drawing.Point(3, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(82, 39);
+            this.button1.TabIndex = 14;
+            this.button1.Text = "About";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.button1);
+            this.flowLayoutPanel1.Controls.Add(this.helpButton);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 343);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(230, 220);
+            this.flowLayoutPanel1.TabIndex = 15;
+            // 
+            // helpButton
+            // 
+            this.helpButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.helpButton.Font = new System.Drawing.Font("Nirmala UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.helpButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.helpButton.Location = new System.Drawing.Point(91, 3);
+            this.helpButton.Name = "helpButton";
+            this.helpButton.Size = new System.Drawing.Size(82, 39);
+            this.helpButton.TabIndex = 15;
+            this.helpButton.Text = "Help";
+            this.helpButton.UseVisualStyleBackColor = true;
+            this.helpButton.Click += new System.EventHandler(this.helpButton_Click);
             // 
             // Form1
             // 
@@ -656,6 +681,7 @@
             this.splitContainerA2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerA2)).EndInit();
             this.splitContainerA2.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -693,6 +719,8 @@
         private Label gLabel;
         private Label bLabel;
         private Label aLabel;
-        private Button aboutButton;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private Button button1;
+        private Button helpButton;
     }
 }
