@@ -306,10 +306,6 @@ namespace peaPacker
                 }
             }
         }
-        private void splitContainerG_SplitterMoved(object sender, SplitterEventArgs e)
-        {
-
-        }
         private void pictureBoxR_Click(object sender, EventArgs e)
         {
             LoadIndividualChannel(0);
@@ -400,6 +396,11 @@ namespace peaPacker
             }
         }
 
+        private void aboutButton_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("PeaPacker version 1.0\nhttps://github.com/L-nobilis/peapacker", "About PeaPacker");
+        }
+
         // =================================================== Setup Stuff ============================================================
 
         /// <summary>
@@ -434,39 +435,6 @@ namespace peaPacker
 
         }
 
-        // ===================================================  Image Type Conversion Helpers ===================================================  
-        ///<summary>
-        ///Helper function to convert bitmaps to ImageSharp images.
-        ///</summary>
-        //public static Image ToImageSharpImage(Bitmap bitmap)
-        //{
-        //    using (var memoryStream = new MemoryStream())
-        //    {
-        //        bitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
-        //        memoryStream.Seek(0, SeekOrigin.Begin);
-        //        return Image.Load(memoryStream);
-        //    }
-        //}
 
-        //public static Bitmap ToBitmap(Image image)
-        //{
-        //    using (var memoryStream = new MemoryStream())
-        //    {
-        //        var imageEncoder = image.GetConfiguration().ImageFormatsManager.FindEncoder(PngFormat.Instance);
-        //        image.Save(memoryStream, imageEncoder);
-        //        memoryStream.Seek(0, SeekOrigin.Begin);
-        //        return new Bitmap(memoryStream);
-        //    }
-        //}
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel1_Paint_1(object sender, PaintEventArgs e)
-        {
-
-        }
     }
 }

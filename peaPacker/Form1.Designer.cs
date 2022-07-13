@@ -59,6 +59,7 @@
             this.gLabel = new System.Windows.Forms.Label();
             this.bLabel = new System.Windows.Forms.Label();
             this.aLabel = new System.Windows.Forms.Label();
+            this.aboutButton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOutput)).BeginInit();
@@ -120,6 +121,7 @@
             this.tableLayoutPanel1.Controls.Add(this.gLabel, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.bLabel, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.aLabel, 3, 1);
+            this.tableLayoutPanel1.Controls.Add(this.aboutButton, 0, 3);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -131,7 +133,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(947, 588);
             this.tableLayoutPanel1.TabIndex = 0;
-            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint_1);
             // 
             // openImage
             // 
@@ -183,7 +184,7 @@
             this.pictureBoxOutput.Location = new System.Drawing.Point(239, 343);
             this.pictureBoxOutput.Name = "pictureBoxOutput";
             this.pictureBoxOutput.Size = new System.Drawing.Size(230, 220);
-            this.pictureBoxOutput.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxOutput.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBoxOutput.TabIndex = 5;
             this.pictureBoxOutput.TabStop = false;
             this.pictureBoxOutput.Click += new System.EventHandler(this.pictureBoxOutput_Click);
@@ -217,7 +218,7 @@
             // 
             this.splitContainerR1.Panel2.Controls.Add(this.splitContainerR2);
             this.splitContainerR1.Size = new System.Drawing.Size(216, 253);
-            this.splitContainerR1.SplitterDistance = 205;
+            this.splitContainerR1.SplitterDistance = 204;
             this.splitContainerR1.TabIndex = 0;
             // 
             // pictureBoxR
@@ -226,8 +227,8 @@
             this.pictureBoxR.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBoxR.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxR.Name = "pictureBoxR";
-            this.pictureBoxR.Size = new System.Drawing.Size(216, 205);
-            this.pictureBoxR.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxR.Size = new System.Drawing.Size(216, 204);
+            this.pictureBoxR.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBoxR.TabIndex = 0;
             this.pictureBoxR.TabStop = false;
             this.pictureBoxR.Click += new System.EventHandler(this.pictureBoxR_Click);
@@ -247,7 +248,7 @@
             // splitContainerR2.Panel2
             // 
             this.splitContainerR2.Panel2.Controls.Add(this.fillButtonR);
-            this.splitContainerR2.Size = new System.Drawing.Size(216, 44);
+            this.splitContainerR2.Size = new System.Drawing.Size(216, 45);
             this.splitContainerR2.SplitterDistance = 103;
             this.splitContainerR2.TabIndex = 0;
             // 
@@ -261,7 +262,7 @@
             this.invertButtonR.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.invertButtonR.Location = new System.Drawing.Point(0, 0);
             this.invertButtonR.Name = "invertButtonR";
-            this.invertButtonR.Size = new System.Drawing.Size(103, 44);
+            this.invertButtonR.Size = new System.Drawing.Size(103, 45);
             this.invertButtonR.TabIndex = 0;
             this.invertButtonR.Text = "Invert";
             this.invertButtonR.UseVisualStyleBackColor = false;
@@ -277,7 +278,7 @@
             this.fillButtonR.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.fillButtonR.Location = new System.Drawing.Point(0, 0);
             this.fillButtonR.Name = "fillButtonR";
-            this.fillButtonR.Size = new System.Drawing.Size(109, 44);
+            this.fillButtonR.Size = new System.Drawing.Size(109, 45);
             this.fillButtonR.TabIndex = 1;
             this.fillButtonR.Text = "Fill";
             this.fillButtonR.UseVisualStyleBackColor = false;
@@ -301,7 +302,6 @@
             this.splitContainerG1.Size = new System.Drawing.Size(216, 253);
             this.splitContainerG1.SplitterDistance = 205;
             this.splitContainerG1.TabIndex = 2;
-            this.splitContainerG1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainerG_SplitterMoved);
             // 
             // pictureBoxG
             // 
@@ -310,7 +310,7 @@
             this.pictureBoxG.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxG.Name = "pictureBoxG";
             this.pictureBoxG.Size = new System.Drawing.Size(216, 205);
-            this.pictureBoxG.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxG.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBoxG.TabIndex = 0;
             this.pictureBoxG.TabStop = false;
             this.pictureBoxG.Click += new System.EventHandler(this.pictureBoxG_Click);
@@ -392,7 +392,7 @@
             this.pictureBoxB.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxB.Name = "pictureBoxB";
             this.pictureBoxB.Size = new System.Drawing.Size(216, 205);
-            this.pictureBoxB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBoxB.TabIndex = 0;
             this.pictureBoxB.TabStop = false;
             this.pictureBoxB.Click += new System.EventHandler(this.pictureBoxB_Click);
@@ -474,7 +474,7 @@
             this.pictureBoxA.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxA.Name = "pictureBoxA";
             this.pictureBoxA.Size = new System.Drawing.Size(219, 205);
-            this.pictureBoxA.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxA.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBoxA.TabIndex = 0;
             this.pictureBoxA.TabStop = false;
             this.pictureBoxA.Click += new System.EventHandler(this.pictureBoxA_Click);
@@ -582,6 +582,19 @@
             this.aLabel.Text = "Alpha Channel";
             this.aLabel.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
+            // aboutButton
+            // 
+            this.aboutButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.aboutButton.Font = new System.Drawing.Font("Nirmala UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.aboutButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.aboutButton.Location = new System.Drawing.Point(3, 343);
+            this.aboutButton.Name = "aboutButton";
+            this.aboutButton.Size = new System.Drawing.Size(82, 39);
+            this.aboutButton.TabIndex = 13;
+            this.aboutButton.Text = "About";
+            this.aboutButton.UseVisualStyleBackColor = true;
+            this.aboutButton.Click += new System.EventHandler(this.aboutButton_Click);
+            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
@@ -601,6 +614,7 @@
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOutput)).EndInit();
             this.splitContainerR1.Panel1.ResumeLayout(false);
+            this.splitContainerR1.Panel1.PerformLayout();
             this.splitContainerR1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerR1)).EndInit();
             this.splitContainerR1.ResumeLayout(false);
@@ -610,6 +624,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerR2)).EndInit();
             this.splitContainerR2.ResumeLayout(false);
             this.splitContainerG1.Panel1.ResumeLayout(false);
+            this.splitContainerG1.Panel1.PerformLayout();
             this.splitContainerG1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerG1)).EndInit();
             this.splitContainerG1.ResumeLayout(false);
@@ -619,6 +634,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerG2)).EndInit();
             this.splitContainerG2.ResumeLayout(false);
             this.splitContainerB1.Panel1.ResumeLayout(false);
+            this.splitContainerB1.Panel1.PerformLayout();
             this.splitContainerB1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerB1)).EndInit();
             this.splitContainerB1.ResumeLayout(false);
@@ -628,6 +644,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerB2)).EndInit();
             this.splitContainerB2.ResumeLayout(false);
             this.splitContainerA1.Panel1.ResumeLayout(false);
+            this.splitContainerA1.Panel1.PerformLayout();
             this.splitContainerA1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerA1)).EndInit();
             this.splitContainerA1.ResumeLayout(false);
@@ -673,5 +690,6 @@
         private Label gLabel;
         private Label bLabel;
         private Label aLabel;
+        private Button aboutButton;
     }
 }
