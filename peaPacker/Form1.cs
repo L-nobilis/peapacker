@@ -133,6 +133,17 @@ namespace peaPacker
 
         // =======================================================  Channel Manipulation =======================================================  
 
+        /// <summary>
+        /// Creates a new image based on the passed in values. An alternative to opening an image.
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public void CreateNewImage(int width, int height)
+        {
+            MagickImage newImage = new MagickImage(new MagickColor("#000000"), width, height);
+            SetRGBAImage(newImage);
+        }
+
         ///<summary>
         ///Inverts the indicated channel, 0 = red, 1= green, 2 = blue, 3 = alpha
         ///</summary>
@@ -413,6 +424,8 @@ namespace peaPacker
                 "2. Click each channel to replace it with a new image, or modify them with the controls below.\n" +
                 "3. Save your new packed image.", "PeaPacker Help");
         }
+
+
         // =================================================== Setup Stuff ============================================================
 
         /// <summary>
@@ -454,9 +467,6 @@ namespace peaPacker
 
         }
 
-        public void CreateNewImage(int width, int height)
-        {
-            //Create new image from passed-in values
-        }
+
     }
 }

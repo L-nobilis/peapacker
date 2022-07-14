@@ -32,15 +32,15 @@
             this.buttonCancel = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
+            this.numericUpDownWidth = new System.Windows.Forms.NumericUpDown();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
-            this.buttonOk = new System.Windows.Forms.Button();
-            this.numericUpDownWidth = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownHeight = new System.Windows.Forms.NumericUpDown();
+            this.buttonOk = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
-            this.flowLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).BeginInit();
+            this.flowLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).BeginInit();
             this.SuspendLayout();
             // 
@@ -64,7 +64,7 @@
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(145, 88);
+            this.buttonCancel.Location = new System.Drawing.Point(145, 87);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 5;
@@ -79,7 +79,7 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(136, 79);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(136, 78);
             this.flowLayoutPanel1.TabIndex = 2;
             // 
             // label1
@@ -92,6 +92,27 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Width";
             // 
+            // numericUpDownWidth
+            // 
+            this.numericUpDownWidth.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(88)))), ((int)(((byte)(88)))));
+            this.numericUpDownWidth.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.numericUpDownWidth.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.numericUpDownWidth.Location = new System.Drawing.Point(3, 18);
+            this.numericUpDownWidth.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numericUpDownWidth.Name = "numericUpDownWidth";
+            this.numericUpDownWidth.Size = new System.Drawing.Size(120, 19);
+            this.numericUpDownWidth.TabIndex = 2;
+            this.numericUpDownWidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDownWidth.Value = new decimal(new int[] {
+            1024,
+            0,
+            0,
+            0});
+            // 
             // flowLayoutPanel2
             // 
             this.flowLayoutPanel2.Controls.Add(this.label2);
@@ -99,7 +120,7 @@
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(145, 3);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(136, 79);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(136, 78);
             this.flowLayoutPanel2.TabIndex = 3;
             // 
             // label2
@@ -112,29 +133,36 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Height";
             // 
+            // numericUpDownHeight
+            // 
+            this.numericUpDownHeight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(88)))), ((int)(((byte)(88)))));
+            this.numericUpDownHeight.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.numericUpDownHeight.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.numericUpDownHeight.Location = new System.Drawing.Point(3, 18);
+            this.numericUpDownHeight.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numericUpDownHeight.Name = "numericUpDownHeight";
+            this.numericUpDownHeight.Size = new System.Drawing.Size(120, 19);
+            this.numericUpDownHeight.TabIndex = 3;
+            this.numericUpDownHeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDownHeight.Value = new decimal(new int[] {
+            1024,
+            0,
+            0,
+            0});
+            // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(3, 88);
+            this.buttonOk.Location = new System.Drawing.Point(3, 87);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
             this.buttonOk.TabIndex = 4;
             this.buttonOk.Text = "OK";
             this.buttonOk.UseVisualStyleBackColor = true;
             this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
-            // 
-            // numericUpDownWidth
-            // 
-            this.numericUpDownWidth.Location = new System.Drawing.Point(3, 18);
-            this.numericUpDownWidth.Name = "numericUpDownWidth";
-            this.numericUpDownWidth.Size = new System.Drawing.Size(120, 23);
-            this.numericUpDownWidth.TabIndex = 2;
-            // 
-            // numericUpDownHeight
-            // 
-            this.numericUpDownHeight.Location = new System.Drawing.Point(3, 18);
-            this.numericUpDownHeight.Name = "numericUpDownHeight";
-            this.numericUpDownHeight.Size = new System.Drawing.Size(120, 23);
-            this.numericUpDownHeight.TabIndex = 3;
             // 
             // NewImage
             // 
@@ -151,9 +179,9 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).EndInit();
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).EndInit();
             this.ResumeLayout(false);
 
