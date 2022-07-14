@@ -447,6 +447,16 @@ namespace peaPacker
 
         }
 
+        private void newImageButton_Click(object sender, EventArgs e)
+        {
+            NewImage newImgWindow = new NewImage();
+            newImgWindow.ShowDialog();
 
+        }
+
+        public void CreateNewImage(int width, int height)
+        {
+            //Create new image from passed-in values
+        }
     }
 }

@@ -59,10 +59,11 @@
             this.gLabel = new System.Windows.Forms.Label();
             this.bLabel = new System.Windows.Forms.Label();
             this.aLabel = new System.Windows.Forms.Label();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.button1 = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.button1 = new System.Windows.Forms.Button();
             this.helpButton = new System.Windows.Forms.Button();
+            this.newImageButton = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOutput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerR1)).BeginInit();
@@ -140,14 +141,13 @@
             // openImage
             // 
             this.openImage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(44)))), ((int)(((byte)(44)))));
-            this.tableLayoutPanel1.SetColumnSpan(this.openImage, 2);
             this.openImage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.openImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.openImage.Font = new System.Drawing.Font("Nirmala UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.openImage.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.openImage.Location = new System.Drawing.Point(239, 3);
             this.openImage.Name = "openImage";
-            this.openImage.Size = new System.Drawing.Size(466, 35);
+            this.openImage.Size = new System.Drawing.Size(230, 35);
             this.openImage.TabIndex = 1;
             this.openImage.Text = "Drag image here or click to browse";
             this.openImage.UseVisualStyleBackColor = false;
@@ -592,10 +592,16 @@
             this.aLabel.Text = "Alpha Channel";
             this.aLabel.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // openFileDialog1
+            // flowLayoutPanel1
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
+            this.flowLayoutPanel1.Controls.Add(this.button1);
+            this.flowLayoutPanel1.Controls.Add(this.helpButton);
+            this.flowLayoutPanel1.Controls.Add(this.newImageButton);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 343);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(230, 220);
+            this.flowLayoutPanel1.TabIndex = 15;
             // 
             // button1
             // 
@@ -609,16 +615,6 @@
             this.button1.Text = "About";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.Controls.Add(this.button1);
-            this.flowLayoutPanel1.Controls.Add(this.helpButton);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 343);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(230, 220);
-            this.flowLayoutPanel1.TabIndex = 15;
-            // 
             // helpButton
             // 
             this.helpButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -631,6 +627,24 @@
             this.helpButton.Text = "Help";
             this.helpButton.UseVisualStyleBackColor = true;
             this.helpButton.Click += new System.EventHandler(this.helpButton_Click);
+            // 
+            // newImageButton
+            // 
+            this.newImageButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.newImageButton.Font = new System.Drawing.Font("Nirmala UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.newImageButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.newImageButton.Location = new System.Drawing.Point(3, 48);
+            this.newImageButton.Name = "newImageButton";
+            this.newImageButton.Size = new System.Drawing.Size(170, 39);
+            this.newImageButton.TabIndex = 16;
+            this.newImageButton.Text = "Create New Image";
+            this.newImageButton.UseVisualStyleBackColor = true;
+            this.newImageButton.Click += new System.EventHandler(this.newImageButton_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
             // Form1
             // 
@@ -722,5 +736,6 @@
         private FlowLayoutPanel flowLayoutPanel1;
         private Button button1;
         private Button helpButton;
+        private Button newImageButton;
     }
 }
