@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace peaPacker
 {
@@ -16,6 +17,9 @@ namespace peaPacker
         public NewImage()
         {
             InitializeComponent();
+            comboBoxSizes.Items.Clear();
+            comboBoxSizes.Items.AddRange(new object[] { "32", "64", "128", "256", "512", "1024", "2048", "4096", "8192", "16384" });
+
         }
 
         private void buttonOk_Click(object sender, EventArgs e)
@@ -28,6 +32,14 @@ namespace peaPacker
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void DropdownChanged(object sender, EventArgs e)
+        {
+            int value = Int32.Parse(comboBoxSizes.Items[comboBoxSizes.SelectedIndex].ToString());
+
+            numericUpDownHeight.Value = value;
+            numericUpDownWidth.Value = value;
         }
     }
 }

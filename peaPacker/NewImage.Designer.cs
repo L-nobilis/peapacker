@@ -33,15 +33,18 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.numericUpDownWidth = new System.Windows.Forms.NumericUpDown();
+            this.comboBoxSizes = new System.Windows.Forms.ComboBox();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
             this.numericUpDownHeight = new System.Windows.Forms.NumericUpDown();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.buttonOk = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).BeginInit();
             this.flowLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).BeginInit();
+            this.flowLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -52,7 +55,7 @@
             this.tableLayoutPanel1.Controls.Add(this.buttonCancel, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel2, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.buttonOk, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel3, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -76,6 +79,7 @@
             // 
             this.flowLayoutPanel1.Controls.Add(this.label1);
             this.flowLayoutPanel1.Controls.Add(this.numericUpDownWidth);
+            this.flowLayoutPanel1.Controls.Add(this.comboBoxSizes);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -112,6 +116,15 @@
             0,
             0,
             0});
+            // 
+            // comboBoxSizes
+            // 
+            this.comboBoxSizes.FormattingEnabled = true;
+            this.comboBoxSizes.Location = new System.Drawing.Point(3, 43);
+            this.comboBoxSizes.Name = "comboBoxSizes";
+            this.comboBoxSizes.Size = new System.Drawing.Size(121, 23);
+            this.comboBoxSizes.TabIndex = 5;
+            this.comboBoxSizes.SelectedIndexChanged += new System.EventHandler(this.DropdownChanged);
             // 
             // flowLayoutPanel2
             // 
@@ -154,9 +167,18 @@
             0,
             0});
             // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.Controls.Add(this.buttonOk);
+            this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 87);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(136, 173);
+            this.flowLayoutPanel3.TabIndex = 6;
+            // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(3, 87);
+            this.buttonOk.Location = new System.Drawing.Point(3, 3);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
             this.buttonOk.TabIndex = 4;
@@ -183,6 +205,7 @@
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).EndInit();
+            this.flowLayoutPanel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -198,5 +221,7 @@
         private Button buttonOk;
         private NumericUpDown numericUpDownWidth;
         private NumericUpDown numericUpDownHeight;
+        private FlowLayoutPanel flowLayoutPanel3;
+        private ComboBox comboBoxSizes;
     }
 }

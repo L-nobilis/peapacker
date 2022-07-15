@@ -131,8 +131,6 @@ namespace peaPacker
             DisplaySplitChannels();
         }
 
-        // =======================================================  Channel Manipulation =======================================================  
-
         /// <summary>
         /// Creates a new image based on the passed in values. An alternative to opening an image.
         /// </summary>
@@ -142,8 +140,11 @@ namespace peaPacker
         {
             MagickImage newImage = new MagickImage(new MagickColor("#000000"), width, height);
             SetRGBAImage(newImage);
+            pathLabel.Text = $" ";
+
         }
 
+        // =======================================================  Channel Manipulation =======================================================  
         ///<summary>
         ///Inverts the indicated channel, 0 = red, 1= green, 2 = blue, 3 = alpha
         ///</summary>
