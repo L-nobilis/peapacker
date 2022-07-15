@@ -38,13 +38,17 @@
             this.label2 = new System.Windows.Forms.Label();
             this.numericUpDownHeight = new System.Windows.Forms.NumericUpDown();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.pictureBoxBgColor = new System.Windows.Forms.PictureBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.buttonOk = new System.Windows.Forms.Button();
+            this.buttonBgColor = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).BeginInit();
             this.flowLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).BeginInit();
             this.flowLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBgColor)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -170,11 +174,33 @@
             // flowLayoutPanel3
             // 
             this.flowLayoutPanel3.Controls.Add(this.buttonOk);
+            this.flowLayoutPanel3.Controls.Add(this.label3);
+            this.flowLayoutPanel3.Controls.Add(this.pictureBoxBgColor);
+            this.flowLayoutPanel3.Controls.Add(this.buttonBgColor);
             this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 87);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
             this.flowLayoutPanel3.Size = new System.Drawing.Size(136, 173);
             this.flowLayoutPanel3.TabIndex = 6;
+            // 
+            // pictureBoxBgColor
+            // 
+            this.pictureBoxBgColor.BackColor = System.Drawing.Color.Black;
+            this.pictureBoxBgColor.Location = new System.Drawing.Point(3, 47);
+            this.pictureBoxBgColor.Name = "pictureBoxBgColor";
+            this.pictureBoxBgColor.Size = new System.Drawing.Size(100, 50);
+            this.pictureBoxBgColor.TabIndex = 6;
+            this.pictureBoxBgColor.TabStop = false;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.label3.Location = new System.Drawing.Point(3, 29);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(104, 15);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Background color:";
             // 
             // buttonOk
             // 
@@ -185,6 +211,16 @@
             this.buttonOk.Text = "OK";
             this.buttonOk.UseVisualStyleBackColor = true;
             this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
+            // 
+            // buttonBgColor
+            // 
+            this.buttonBgColor.Location = new System.Drawing.Point(3, 103);
+            this.buttonBgColor.Name = "buttonBgColor";
+            this.buttonBgColor.Size = new System.Drawing.Size(88, 23);
+            this.buttonBgColor.TabIndex = 4;
+            this.buttonBgColor.Text = "Change Color";
+            this.buttonBgColor.UseVisualStyleBackColor = true;
+            this.buttonBgColor.Click += new System.EventHandler(this.buttonBgColor_Click);
             // 
             // NewImage
             // 
@@ -206,6 +242,8 @@
             this.flowLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).EndInit();
             this.flowLayoutPanel3.ResumeLayout(false);
+            this.flowLayoutPanel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBgColor)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -223,5 +261,8 @@
         private NumericUpDown numericUpDownHeight;
         private FlowLayoutPanel flowLayoutPanel3;
         private ComboBox comboBoxSizes;
+        private Button buttonBgColor;
+        private Label label3;
+        private PictureBox pictureBoxBgColor;
     }
 }

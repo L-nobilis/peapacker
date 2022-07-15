@@ -41,5 +41,12 @@ namespace peaPacker
             numericUpDownHeight.Value = value;
             numericUpDownWidth.Value = value;
         }
+
+        private void buttonBgColor_Click(object sender, EventArgs e)
+        {
+            var colorDialog = new ColorDialog();
+            colorDialog.ShowDialog();
+            pictureBoxBgColor.BackColor = colorDialog.Color;
+        }
     }
 }
