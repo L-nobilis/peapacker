@@ -136,9 +136,10 @@ namespace peaPacker
         /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public void CreateNewImage(int width, int height)
+        public void CreateNewImage(int width, int height, Color bgColor)
         {
-            MagickImage newImage = new MagickImage(new MagickColor("#000000"), width, height);
+            //MagickColor wants the color in string hex format, so we use ColorTranslator here to do that
+            MagickImage newImage = new MagickImage(new MagickColor(ColorTranslator.ToHtml(bgColor)), width, height);
             SetRGBAImage(newImage);
             pathLabel.Text = $" ";
 
