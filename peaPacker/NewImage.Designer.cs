@@ -71,7 +71,9 @@
             // 
             // buttonCancel
             // 
+            this.buttonCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonCancel.Font = new System.Drawing.Font("Nirmala UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.buttonCancel.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.buttonCancel.Location = new System.Drawing.Point(145, 87);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
@@ -125,7 +127,9 @@
             // 
             // comboBoxSizes
             // 
+            this.comboBoxSizes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.comboBoxSizes.Font = new System.Drawing.Font("Nirmala UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.comboBoxSizes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.comboBoxSizes.FormattingEnabled = true;
             this.comboBoxSizes.Location = new System.Drawing.Point(3, 43);
             this.comboBoxSizes.Name = "comboBoxSizes";
@@ -189,7 +193,9 @@
             // 
             // buttonOk
             // 
+            this.buttonOk.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonOk.Font = new System.Drawing.Font("Nirmala UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.buttonOk.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.buttonOk.Location = new System.Drawing.Point(3, 3);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
@@ -221,10 +227,12 @@
             // 
             // buttonBgColor
             // 
+            this.buttonBgColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonBgColor.Font = new System.Drawing.Font("Nirmala UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.buttonBgColor.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.buttonBgColor.Location = new System.Drawing.Point(3, 103);
             this.buttonBgColor.Name = "buttonBgColor";
-            this.buttonBgColor.Size = new System.Drawing.Size(88, 23);
+            this.buttonBgColor.Size = new System.Drawing.Size(88, 27);
             this.buttonBgColor.TabIndex = 4;
             this.buttonBgColor.Text = "Change Color";
             this.buttonBgColor.UseVisualStyleBackColor = true;
