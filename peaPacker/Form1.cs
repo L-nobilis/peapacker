@@ -452,6 +452,8 @@ namespace peaPacker
             tooltips.Add(pictureBoxR, "Load individual red channel");
             tooltips.Add(pictureBoxG, "Load individual green channel");
             tooltips.Add(pictureBoxB, "Load individual blue channel");
+
+            tooltips.Add(newImageButton, "Create a new image");
             //tooltips.Add(saveAsButton, "Save new image.");
 
             foreach (KeyValuePair<Control, string> entry in tooltips)

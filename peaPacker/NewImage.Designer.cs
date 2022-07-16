@@ -241,6 +241,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "NewImage";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Create a new image";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);

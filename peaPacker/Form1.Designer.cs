@@ -637,7 +637,7 @@
             this.newImageButton.Name = "newImageButton";
             this.newImageButton.Size = new System.Drawing.Size(170, 39);
             this.newImageButton.TabIndex = 16;
-            this.newImageButton.Text = "Create New Image";
+            this.newImageButton.Text = "Create new image...";
             this.newImageButton.UseVisualStyleBackColor = true;
             this.newImageButton.Click += new System.EventHandler(this.newImageButton_Click);
             // 
