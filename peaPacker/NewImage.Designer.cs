@@ -38,9 +38,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.numericUpDownHeight = new System.Windows.Forms.NumericUpDown();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
-            this.pictureBoxBgColor = new System.Windows.Forms.PictureBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.buttonOk = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.pictureBoxBgColor = new System.Windows.Forms.PictureBox();
             this.buttonBgColor = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -107,7 +107,7 @@
             this.numericUpDownWidth.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.numericUpDownWidth.Location = new System.Drawing.Point(3, 18);
             this.numericUpDownWidth.Maximum = new decimal(new int[] {
-            10000,
+            100000,
             0,
             0,
             0});
@@ -157,7 +157,7 @@
             this.numericUpDownHeight.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.numericUpDownHeight.Location = new System.Drawing.Point(3, 18);
             this.numericUpDownHeight.Maximum = new decimal(new int[] {
-            10000,
+            100000,
             0,
             0,
             0});
@@ -183,14 +183,15 @@
             this.flowLayoutPanel3.Size = new System.Drawing.Size(136, 173);
             this.flowLayoutPanel3.TabIndex = 6;
             // 
-            // pictureBoxBgColor
+            // buttonOk
             // 
-            this.pictureBoxBgColor.BackColor = System.Drawing.Color.Black;
-            this.pictureBoxBgColor.Location = new System.Drawing.Point(3, 47);
-            this.pictureBoxBgColor.Name = "pictureBoxBgColor";
-            this.pictureBoxBgColor.Size = new System.Drawing.Size(100, 50);
-            this.pictureBoxBgColor.TabIndex = 6;
-            this.pictureBoxBgColor.TabStop = false;
+            this.buttonOk.Location = new System.Drawing.Point(3, 3);
+            this.buttonOk.Name = "buttonOk";
+            this.buttonOk.Size = new System.Drawing.Size(75, 23);
+            this.buttonOk.TabIndex = 4;
+            this.buttonOk.Text = "OK";
+            this.buttonOk.UseVisualStyleBackColor = true;
+            this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
             // 
             // label3
             // 
@@ -202,15 +203,14 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "Background color:";
             // 
-            // buttonOk
+            // pictureBoxBgColor
             // 
-            this.buttonOk.Location = new System.Drawing.Point(3, 3);
-            this.buttonOk.Name = "buttonOk";
-            this.buttonOk.Size = new System.Drawing.Size(75, 23);
-            this.buttonOk.TabIndex = 4;
-            this.buttonOk.Text = "OK";
-            this.buttonOk.UseVisualStyleBackColor = true;
-            this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
+            this.pictureBoxBgColor.BackColor = System.Drawing.Color.Black;
+            this.pictureBoxBgColor.Location = new System.Drawing.Point(3, 47);
+            this.pictureBoxBgColor.Name = "pictureBoxBgColor";
+            this.pictureBoxBgColor.Size = new System.Drawing.Size(100, 50);
+            this.pictureBoxBgColor.TabIndex = 6;
+            this.pictureBoxBgColor.TabStop = false;
             // 
             // buttonBgColor
             // 
