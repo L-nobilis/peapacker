@@ -19,7 +19,7 @@ namespace peaPacker
             InitializeComponent();
             comboBoxSizes.Items.Clear();
             comboBoxSizes.Items.AddRange(new object[] { "32", "64", "128", "256", "512", "1024", "2048", "4096", "8192", "16384" });
-
+            comboBoxSizes.SelectedIndex = 5; //Defaults to 1024
         }
 
         private void buttonOk_Click(object sender, EventArgs e)
@@ -43,6 +43,13 @@ namespace peaPacker
         }
 
         private void buttonBgColor_Click(object sender, EventArgs e)
+        {
+            var colorDialog = new ColorDialog();
+            colorDialog.ShowDialog();
+            pictureBoxBgColor.BackColor = colorDialog.Color;
+        }
+
+        private void pictureBoxBgColor_Click(object sender, EventArgs e)
         {
             var colorDialog = new ColorDialog();
             colorDialog.ShowDialog();

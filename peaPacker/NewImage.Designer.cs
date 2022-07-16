@@ -71,6 +71,7 @@
             // 
             // buttonCancel
             // 
+            this.buttonCancel.Font = new System.Drawing.Font("Nirmala UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonCancel.Location = new System.Drawing.Point(145, 87);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
@@ -93,6 +94,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Nirmala UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label1.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
@@ -123,6 +125,7 @@
             // 
             // comboBoxSizes
             // 
+            this.comboBoxSizes.Font = new System.Drawing.Font("Nirmala UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.comboBoxSizes.FormattingEnabled = true;
             this.comboBoxSizes.Location = new System.Drawing.Point(3, 43);
             this.comboBoxSizes.Name = "comboBoxSizes";
@@ -143,6 +146,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Nirmala UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label2.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.label2.Location = new System.Drawing.Point(3, 0);
             this.label2.Name = "label2";
@@ -185,6 +189,7 @@
             // 
             // buttonOk
             // 
+            this.buttonOk.Font = new System.Drawing.Font("Nirmala UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonOk.Location = new System.Drawing.Point(3, 3);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
@@ -196,6 +201,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Nirmala UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label3.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.label3.Location = new System.Drawing.Point(3, 29);
             this.label3.Name = "label3";
@@ -211,9 +217,11 @@
             this.pictureBoxBgColor.Size = new System.Drawing.Size(100, 50);
             this.pictureBoxBgColor.TabIndex = 6;
             this.pictureBoxBgColor.TabStop = false;
+            this.pictureBoxBgColor.Click += new System.EventHandler(this.pictureBoxBgColor_Click);
             // 
             // buttonBgColor
             // 
+            this.buttonBgColor.Font = new System.Drawing.Font("Nirmala UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonBgColor.Location = new System.Drawing.Point(3, 103);
             this.buttonBgColor.Name = "buttonBgColor";
             this.buttonBgColor.Size = new System.Drawing.Size(88, 23);
