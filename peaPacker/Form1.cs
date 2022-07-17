@@ -66,21 +66,40 @@ namespace peaPacker
         {
             using (MagickImageCollection channels = new MagickImageCollection())
             {
-                channels.AddRange(currentImage.Separate(Channels.RGB));
-                channels.AddRange(currentImage.Separate(Channels.Alpha));
+                channels.AddRange(currentImage.Separate(Channels.All));
+                MessageBox.Show($"Image has {currentImage.Channels.Count()} channels. Colorspace: {currentImage.ColorSpace.ToString()}");
 
-                //Display each channel:
                 pictureBoxOutput.Image?.Dispose();
                 pictureBoxOutput.Image = currentImage.ToBitmap();
 
                 pictureBoxR.Image?.Dispose();
-                pictureBoxR.Image = channels[0].ToBitmap();
                 pictureBoxG.Image?.Dispose();
-                pictureBoxG.Image = channels[1].ToBitmap();
                 pictureBoxB.Image?.Dispose();
-                pictureBoxB.Image = channels[2].ToBitmap();
                 pictureBoxA.Image?.Dispose();
-                pictureBoxA.Image = channels[3].ToBitmap();
+
+                if (currentImage.ColorSpace == ColorSpace.sRGB)
+                {
+                    //Display each channel:
+                    pictureBoxR.Image = channels[0].ToBitmap();
+                    pictureBoxG.Image = channels[1].ToBitmap();
+                    pictureBoxB.Image = channels[2].ToBitmap();
+                    if (channels.Count() > 3)
+                    {
+                        pictureBoxA.Image = channels[3].ToBitmap();
+                    }
+                    else
+                    {
+                        pictureBoxA.Image = new MagickImage(new MagickColor("#FFFFFF"), currentImage.Width, currentImage.Height).ToBitmap();
+                    }
+
+                }
+
+                else if(currentImage.ColorSpace == ColorSpace.Gray){
+                    pictureBoxR.Image = channels[0].ToBitmap();
+                    pictureBoxG.Image = channels[0].ToBitmap();
+                    pictureBoxB.Image = channels[0].ToBitmap();
+                    pictureBoxA.Image = channels[1].ToBitmap();
+                }
             }
         }
 
@@ -106,28 +125,34 @@ namespace peaPacker
         }
 
         /// <summary>
-        /// Replaces the appropriate picture box's image with the passed in image.  Calls RecombineChannels when finished.
+        /// Replaces the appropriate picture box's image with the passed in image.  Calls DisplaySplitChannels when finished.
         /// </summary>
         /// <param name="image"></param>
         /// <param name="channel">0: R, 1: G, 2: B, 3: A</param>
         public void SetIndividualChannel(MagickImage image, int channel)
         {
-
             //Puts all our current channels in a collection so we can modify them
             MagickImageCollection currentChannels = new MagickImageCollection();
-            currentChannels.AddRange(currentImage.Separate(Channels.RGB));
-            currentChannels.AddRange(currentImage.Separate(Channels.Alpha));
+            currentChannels.AddRange(currentImage.Separate(Channels.All));
 
             //Does the same for our passed in image.
             MagickImageCollection newChannels = new MagickImageCollection();
-            newChannels.AddRange(image.Separate(Channels.RGB));
-            newChannels.AddRange(image.Separate(Channels.Alpha));
+            newChannels.AddRange(image.Separate(Channels.All));
 
-            //Replace our working image's channel with the one passed in
-            currentChannels[channel] = newChannels[channel];
+
+            if (image.ColorSpace == ColorSpace.sRGB)
+            {
+                //Replace our working image's channel with the one passed in
+                currentChannels[channel] = newChannels[channel];
+            }
+            else if (image.ColorSpace == ColorSpace.Gray)
+            {
+                currentChannels[channel] = newChannels[0];
+            }
 
             //Set our working image to be a recombination of the channels
             currentImage = (MagickImage)currentChannels.Combine();
+
             DisplaySplitChannels();
         }
 
