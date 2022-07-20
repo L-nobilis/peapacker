@@ -59,6 +59,10 @@
             this.gLabel = new System.Windows.Forms.Label();
             this.bLabel = new System.Windows.Forms.Label();
             this.aLabel = new System.Windows.Forms.Label();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.helpButton = new System.Windows.Forms.Button();
+            this.newImageButton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOutput)).BeginInit();
@@ -98,6 +102,7 @@
             this.splitContainerA2.Panel1.SuspendLayout();
             this.splitContainerA2.Panel2.SuspendLayout();
             this.splitContainerA2.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -120,6 +125,7 @@
             this.tableLayoutPanel1.Controls.Add(this.gLabel, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.bLabel, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.aLabel, 3, 1);
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 3);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -131,19 +137,17 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(947, 588);
             this.tableLayoutPanel1.TabIndex = 0;
-            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint_1);
             // 
             // openImage
             // 
             this.openImage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(44)))), ((int)(((byte)(44)))));
-            this.tableLayoutPanel1.SetColumnSpan(this.openImage, 2);
             this.openImage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.openImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.openImage.Font = new System.Drawing.Font("Nirmala UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.openImage.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.openImage.Location = new System.Drawing.Point(239, 3);
             this.openImage.Name = "openImage";
-            this.openImage.Size = new System.Drawing.Size(466, 35);
+            this.openImage.Size = new System.Drawing.Size(230, 35);
             this.openImage.TabIndex = 1;
             this.openImage.Text = "Drag image here or click to browse";
             this.openImage.UseVisualStyleBackColor = false;
@@ -204,6 +208,7 @@
             // splitContainerR1
             // 
             this.splitContainerR1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerR1.IsSplitterFixed = true;
             this.splitContainerR1.Location = new System.Drawing.Point(10, 77);
             this.splitContainerR1.Margin = new System.Windows.Forms.Padding(10);
             this.splitContainerR1.Name = "splitContainerR1";
@@ -217,7 +222,7 @@
             // 
             this.splitContainerR1.Panel2.Controls.Add(this.splitContainerR2);
             this.splitContainerR1.Size = new System.Drawing.Size(216, 253);
-            this.splitContainerR1.SplitterDistance = 205;
+            this.splitContainerR1.SplitterDistance = 204;
             this.splitContainerR1.TabIndex = 0;
             // 
             // pictureBoxR
@@ -226,7 +231,7 @@
             this.pictureBoxR.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBoxR.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxR.Name = "pictureBoxR";
-            this.pictureBoxR.Size = new System.Drawing.Size(216, 205);
+            this.pictureBoxR.Size = new System.Drawing.Size(216, 204);
             this.pictureBoxR.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxR.TabIndex = 0;
             this.pictureBoxR.TabStop = false;
@@ -237,6 +242,7 @@
             // splitContainerR2
             // 
             this.splitContainerR2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerR2.IsSplitterFixed = true;
             this.splitContainerR2.Location = new System.Drawing.Point(0, 0);
             this.splitContainerR2.Name = "splitContainerR2";
             // 
@@ -247,7 +253,7 @@
             // splitContainerR2.Panel2
             // 
             this.splitContainerR2.Panel2.Controls.Add(this.fillButtonR);
-            this.splitContainerR2.Size = new System.Drawing.Size(216, 44);
+            this.splitContainerR2.Size = new System.Drawing.Size(216, 45);
             this.splitContainerR2.SplitterDistance = 103;
             this.splitContainerR2.TabIndex = 0;
             // 
@@ -261,7 +267,7 @@
             this.invertButtonR.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.invertButtonR.Location = new System.Drawing.Point(0, 0);
             this.invertButtonR.Name = "invertButtonR";
-            this.invertButtonR.Size = new System.Drawing.Size(103, 44);
+            this.invertButtonR.Size = new System.Drawing.Size(103, 45);
             this.invertButtonR.TabIndex = 0;
             this.invertButtonR.Text = "Invert";
             this.invertButtonR.UseVisualStyleBackColor = false;
@@ -277,7 +283,7 @@
             this.fillButtonR.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.fillButtonR.Location = new System.Drawing.Point(0, 0);
             this.fillButtonR.Name = "fillButtonR";
-            this.fillButtonR.Size = new System.Drawing.Size(109, 44);
+            this.fillButtonR.Size = new System.Drawing.Size(109, 45);
             this.fillButtonR.TabIndex = 1;
             this.fillButtonR.Text = "Fill";
             this.fillButtonR.UseVisualStyleBackColor = false;
@@ -286,6 +292,7 @@
             // splitContainerG1
             // 
             this.splitContainerG1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerG1.IsSplitterFixed = true;
             this.splitContainerG1.Location = new System.Drawing.Point(246, 77);
             this.splitContainerG1.Margin = new System.Windows.Forms.Padding(10);
             this.splitContainerG1.Name = "splitContainerG1";
@@ -301,7 +308,6 @@
             this.splitContainerG1.Size = new System.Drawing.Size(216, 253);
             this.splitContainerG1.SplitterDistance = 205;
             this.splitContainerG1.TabIndex = 2;
-            this.splitContainerG1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainerG_SplitterMoved);
             // 
             // pictureBoxG
             // 
@@ -369,6 +375,7 @@
             // splitContainerB1
             // 
             this.splitContainerB1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerB1.IsSplitterFixed = true;
             this.splitContainerB1.Location = new System.Drawing.Point(482, 77);
             this.splitContainerB1.Margin = new System.Windows.Forms.Padding(10);
             this.splitContainerB1.Name = "splitContainerB1";
@@ -402,6 +409,7 @@
             // splitContainerB2
             // 
             this.splitContainerB2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerB2.IsSplitterFixed = true;
             this.splitContainerB2.Location = new System.Drawing.Point(0, 0);
             this.splitContainerB2.Name = "splitContainerB2";
             // 
@@ -451,6 +459,7 @@
             // splitContainerA1
             // 
             this.splitContainerA1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerA1.IsSplitterFixed = true;
             this.splitContainerA1.Location = new System.Drawing.Point(718, 77);
             this.splitContainerA1.Margin = new System.Windows.Forms.Padding(10);
             this.splitContainerA1.Name = "splitContainerA1";
@@ -484,6 +493,7 @@
             // splitContainerA2
             // 
             this.splitContainerA2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerA2.IsSplitterFixed = true;
             this.splitContainerA2.Location = new System.Drawing.Point(0, 0);
             this.splitContainerA2.Name = "splitContainerA2";
             // 
@@ -582,6 +592,55 @@
             this.aLabel.Text = "Alpha Channel";
             this.aLabel.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.button1);
+            this.flowLayoutPanel1.Controls.Add(this.helpButton);
+            this.flowLayoutPanel1.Controls.Add(this.newImageButton);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 343);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(230, 220);
+            this.flowLayoutPanel1.TabIndex = 15;
+            // 
+            // button1
+            // 
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Nirmala UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.button1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.button1.Location = new System.Drawing.Point(3, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(82, 39);
+            this.button1.TabIndex = 14;
+            this.button1.Text = "About";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // helpButton
+            // 
+            this.helpButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.helpButton.Font = new System.Drawing.Font("Nirmala UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.helpButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.helpButton.Location = new System.Drawing.Point(91, 3);
+            this.helpButton.Name = "helpButton";
+            this.helpButton.Size = new System.Drawing.Size(82, 39);
+            this.helpButton.TabIndex = 15;
+            this.helpButton.Text = "Help";
+            this.helpButton.UseVisualStyleBackColor = true;
+            this.helpButton.Click += new System.EventHandler(this.helpButton_Click);
+            // 
+            // newImageButton
+            // 
+            this.newImageButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.newImageButton.Font = new System.Drawing.Font("Nirmala UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.newImageButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.newImageButton.Location = new System.Drawing.Point(3, 48);
+            this.newImageButton.Name = "newImageButton";
+            this.newImageButton.Size = new System.Drawing.Size(170, 39);
+            this.newImageButton.TabIndex = 16;
+            this.newImageButton.Text = "Create new image...";
+            this.newImageButton.UseVisualStyleBackColor = true;
+            this.newImageButton.Click += new System.EventHandler(this.newImageButton_Click);
+            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
@@ -636,6 +695,7 @@
             this.splitContainerA2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerA2)).EndInit();
             this.splitContainerA2.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -673,5 +733,9 @@
         private Label gLabel;
         private Label bLabel;
         private Label aLabel;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private Button button1;
+        private Button helpButton;
+        private Button newImageButton;
     }
 }

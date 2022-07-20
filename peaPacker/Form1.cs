@@ -66,21 +66,40 @@ namespace peaPacker
         {
             using (MagickImageCollection channels = new MagickImageCollection())
             {
-                channels.AddRange(currentImage.Separate(Channels.RGB));
-                channels.AddRange(currentImage.Separate(Channels.Alpha));
+                channels.AddRange(currentImage.Separate(Channels.All));
+                //MessageBox.Show($"Image has {currentImage.Channels.Count()} channels. Colorspace: {currentImage.ColorSpace.ToString()}");
 
-                //Display each channel:
                 pictureBoxOutput.Image?.Dispose();
                 pictureBoxOutput.Image = currentImage.ToBitmap();
 
                 pictureBoxR.Image?.Dispose();
-                pictureBoxR.Image = channels[0].ToBitmap();
                 pictureBoxG.Image?.Dispose();
-                pictureBoxG.Image = channels[1].ToBitmap();
                 pictureBoxB.Image?.Dispose();
-                pictureBoxB.Image = channels[2].ToBitmap();
                 pictureBoxA.Image?.Dispose();
-                pictureBoxA.Image = channels[3].ToBitmap();
+
+                if (currentImage.ColorSpace == ColorSpace.sRGB)
+                {
+                    //Display each channel:
+                    pictureBoxR.Image = channels[0].ToBitmap();
+                    pictureBoxG.Image = channels[1].ToBitmap();
+                    pictureBoxB.Image = channels[2].ToBitmap();
+                    if (channels.Count() > 3)
+                    {
+                        pictureBoxA.Image = channels[3].ToBitmap();
+                    }
+                    else
+                    {
+                        pictureBoxA.Image = new MagickImage(new MagickColor("#FFFFFF"), currentImage.Width, currentImage.Height).ToBitmap();
+                    }
+
+                }
+
+                else if(currentImage.ColorSpace == ColorSpace.Gray){
+                    pictureBoxR.Image = channels[0].ToBitmap();
+                    pictureBoxG.Image = channels[0].ToBitmap();
+                    pictureBoxB.Image = channels[0].ToBitmap();
+                    pictureBoxA.Image = channels[1].ToBitmap();
+                }
             }
         }
 
@@ -106,33 +125,52 @@ namespace peaPacker
         }
 
         /// <summary>
-        /// Replaces the appropriate picture box's image with the passed in image.  Calls RecombineChannels when finished.
+        /// Replaces the appropriate picture box's image with the passed in image.  Calls DisplaySplitChannels when finished.
         /// </summary>
         /// <param name="image"></param>
         /// <param name="channel">0: R, 1: G, 2: B, 3: A</param>
         public void SetIndividualChannel(MagickImage image, int channel)
         {
-
             //Puts all our current channels in a collection so we can modify them
             MagickImageCollection currentChannels = new MagickImageCollection();
-            currentChannels.AddRange(currentImage.Separate(Channels.RGB));
-            currentChannels.AddRange(currentImage.Separate(Channels.Alpha));
+            currentChannels.AddRange(currentImage.Separate(Channels.All));
 
             //Does the same for our passed in image.
             MagickImageCollection newChannels = new MagickImageCollection();
-            newChannels.AddRange(image.Separate(Channels.RGB));
-            newChannels.AddRange(image.Separate(Channels.Alpha));
+            newChannels.AddRange(image.Separate(Channels.All));
 
-            //Replace our working image's channel with the one passed in
-            currentChannels[channel] = newChannels[channel];
+
+            if (image.ColorSpace == ColorSpace.sRGB)
+            {
+                //Replace our working image's channel with the one passed in
+                currentChannels[channel] = newChannels[channel];
+            }
+            else if (image.ColorSpace == ColorSpace.Gray)
+            {
+                currentChannels[channel] = newChannels[0];
+            }
 
             //Set our working image to be a recombination of the channels
             currentImage = (MagickImage)currentChannels.Combine();
+
             DisplaySplitChannels();
         }
 
-        // =======================================================  Channel Manipulation =======================================================  
+        /// <summary>
+        /// Creates a new image based on the passed in values. An alternative to opening an image.
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public void CreateNewImage(int width, int height, Color bgColor)
+        {
+            //MagickColor wants the color in string hex format, so we use ColorTranslator here to do that
+            MagickImage newImage = new MagickImage(new MagickColor(ColorTranslator.ToHtml(bgColor)), width, height);
+            SetRGBAImage(newImage);
+            pathLabel.Text = $" ";
 
+        }
+
+        // =======================================================  Channel Manipulation =======================================================  
         ///<summary>
         ///Inverts the indicated channel, 0 = red, 1= green, 2 = blue, 3 = alpha
         ///</summary>
@@ -269,6 +307,7 @@ namespace peaPacker
                 }
             }
         }
+
         public void pictureBoxG_DragDrop(object sender, DragEventArgs e)
         {
             var data = e.Data.GetData(DataFormats.FileDrop);
@@ -294,6 +333,7 @@ namespace peaPacker
                 }
             }
         }
+
         public void pictureBoxA_DragDrop(object sender, DragEventArgs e)
         {
             var data = e.Data.GetData(DataFormats.FileDrop);
@@ -306,10 +346,7 @@ namespace peaPacker
                 }
             }
         }
-        private void splitContainerG_SplitterMoved(object sender, SplitterEventArgs e)
-        {
 
-        }
         private void pictureBoxR_Click(object sender, EventArgs e)
         {
             LoadIndividualChannel(0);
@@ -329,14 +366,17 @@ namespace peaPacker
         {
             LoadIndividualChannel(3);
         }
+
         private void pictureBoxOutput_Click(object sender, EventArgs e)
         {
             saveAsButton_Click(sender, e);
         }
+
         private void invertButtonR_Click(object sender, EventArgs e)
         {
             InvertChannel(0);
         }
+
         private void invertButtonG_Click(object sender, EventArgs e)
         {
             InvertChannel(1);
@@ -371,6 +411,7 @@ namespace peaPacker
         {
             FillChannel(3);
         }
+
         private void saveAsButton_Click(object sender, EventArgs e)
         {
             //Displays a Save File Dialog so the user can save the outputImage. 
@@ -400,6 +441,18 @@ namespace peaPacker
             }
         }
 
+        private void aboutButton_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("PeaPacker version 1.0\nhttps://github.com/L-nobilis/peapacker", "About PeaPacker");
+        }
+        private void helpButton_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("How to use:\n1. Open an image by clicking the Open button or by dragging an image onto the open button.\n" +
+                "2. Click each channel to replace it with a new image, or modify them with the controls below.\n" +
+                "3. Save your new packed image.", "PeaPacker Help");
+        }
+
+
         // =================================================== Setup Stuff ============================================================
 
         /// <summary>
@@ -424,6 +477,8 @@ namespace peaPacker
             tooltips.Add(pictureBoxR, "Load individual red channel");
             tooltips.Add(pictureBoxG, "Load individual green channel");
             tooltips.Add(pictureBoxB, "Load individual blue channel");
+
+            tooltips.Add(newImageButton, "Create a new image");
             //tooltips.Add(saveAsButton, "Save new image.");
 
             foreach (KeyValuePair<Control, string> entry in tooltips)
@@ -434,39 +489,13 @@ namespace peaPacker
 
         }
 
-        // ===================================================  Image Type Conversion Helpers ===================================================  
-        ///<summary>
-        ///Helper function to convert bitmaps to ImageSharp images.
-        ///</summary>
-        //public static Image ToImageSharpImage(Bitmap bitmap)
-        //{
-        //    using (var memoryStream = new MemoryStream())
-        //    {
-        //        bitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
-        //        memoryStream.Seek(0, SeekOrigin.Begin);
-        //        return Image.Load(memoryStream);
-        //    }
-        //}
-
-        //public static Bitmap ToBitmap(Image image)
-        //{
-        //    using (var memoryStream = new MemoryStream())
-        //    {
-        //        var imageEncoder = image.GetConfiguration().ImageFormatsManager.FindEncoder(PngFormat.Instance);
-        //        image.Save(memoryStream, imageEncoder);
-        //        memoryStream.Seek(0, SeekOrigin.Begin);
-        //        return new Bitmap(memoryStream);
-        //    }
-        //}
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        private void newImageButton_Click(object sender, EventArgs e)
         {
+            NewImage newImgWindow = new NewImage();
+            newImgWindow.ShowDialog();
 
         }
 
-        private void tableLayoutPanel1_Paint_1(object sender, PaintEventArgs e)
-        {
 
-        }
     }
 }
