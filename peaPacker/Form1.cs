@@ -67,7 +67,7 @@ namespace peaPacker
             using (MagickImageCollection channels = new MagickImageCollection())
             {
                 channels.AddRange(currentImage.Separate(Channels.All));
-                MessageBox.Show($"Image has {currentImage.Channels.Count()} channels. Colorspace: {currentImage.ColorSpace.ToString()}");
+                //MessageBox.Show($"Image has {currentImage.Channels.Count()} channels. Colorspace: {currentImage.ColorSpace.ToString()}");
 
                 pictureBoxOutput.Image?.Dispose();
                 pictureBoxOutput.Image = currentImage.ToBitmap();
