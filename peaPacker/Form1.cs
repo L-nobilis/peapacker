@@ -44,6 +44,10 @@ namespace peaPacker
                 loadedImage.Alpha(AlphaOption.On);
             }
             currentImage = loadedImage;
+            
+            //Force image to be sRGB
+            currentImage.ColorSpace = ColorSpace.sRGB;
+
 
             //Since we just loaded in an image and haven't modified it yet, our output is identical to what we loaded.
             outputSizeLabel.Text = $"Output size: {loadedImage.Width} x {loadedImage.Height}";
