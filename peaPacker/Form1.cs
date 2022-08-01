@@ -44,7 +44,7 @@ namespace peaPacker
                 loadedImage.Alpha(AlphaOption.On);
             }
             currentImage = loadedImage;
-            
+
             //Force image to be sRGB
             currentImage.ColorSpace = ColorSpace.sRGB;
 
@@ -98,7 +98,8 @@ namespace peaPacker
 
                 }
 
-                else if(currentImage.ColorSpace == ColorSpace.Gray){
+                else if (currentImage.ColorSpace == ColorSpace.Gray)
+                {
                     pictureBoxR.Image = channels[0].ToBitmap();
                     pictureBoxG.Image = channels[0].ToBitmap();
                     pictureBoxB.Image = channels[0].ToBitmap();
@@ -118,12 +119,10 @@ namespace peaPacker
                 {
                     if (imageOpened && (channelImage.Width != currentImage.Width || channelImage.Height != currentImage.Height))
                     {
-                        MessageBox.Show($"Channel size must match original image size: {currentImage.Width} x {currentImage.Height}");
+                        MessageBox.Show($"Resizing loaded channel data to match current working size:\n{currentImage.Width} x {currentImage.Height}\nThis may take a moment...");
+                        channelImage.InterpolativeResize(currentImage.Width, currentImage.Height, PixelInterpolateMethod.Bilinear);
                     }
-                    else
-                    {
-                        SetIndividualChannel(channelImage, channel);
-                    }
+                    SetIndividualChannel(channelImage, channel);
                 }
             }
         }
